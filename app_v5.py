@@ -132,7 +132,7 @@ def main():
         
     elif input_method == 'Actual Position':
         st.sidebar.header('Ping the mark where you are')
-        if st.sidebar.button("RC position"):
+        if st.button("RC position"):
             loc = get_geolocation()
             st.write(f"Your coordinates are {loc}")
             
