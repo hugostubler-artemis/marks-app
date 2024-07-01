@@ -20,7 +20,7 @@ MYSQL_SCHEMA = st.secrets["MYSQL_SCHEMA"]
 
 def long_computation():
     import time
-    time.sleep(10)
+    time.sleep(3)
 
 
 def haversine(coord1, coord2):
@@ -143,9 +143,10 @@ def main():
         wg2 = st.session_state.get("wg2", [None, None])
 
         if st.button("RC position"):
-            with st.spinner("Running a long computation.."):
-                long_computation()
             location = streamlit_geolocation()
+            with st.spinner("Loading GPS position"):
+                long_computation()
+            
             st.write(location)
 
 
