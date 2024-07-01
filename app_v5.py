@@ -111,12 +111,12 @@ def main():
     
     if st.checkbox("Ping RC"):
         rc = get_actual_pos()
-        st.write(f"Your coordinates are {rc}")
+        st.write(f"Your coordinates are {rc['coords]}")
         if rc is not None:
             rc = [loc['coords']['latitude'], loc['coords']['longitude']]
     if st.checkbox("Ping Pin"):
         pin = get_actual_pos()
-        st.write(f"Your coordinates are {loc}")
+        st.write(f"Your coordinates are {pin['coords]}")
         if pin is not None:
             pin = [loc['coords']['latitude'], loc['coords']['longitude']]
 
