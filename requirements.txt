@@ -3,7 +3,6 @@ folium
 geopy
 streamlit_folium
 numpy
-pandas
 json
 gpxpy
 mysql
