@@ -10,7 +10,7 @@ import time
 import gpxpy
 import mysql.connector
 from streamlit_js_eval import get_geolocation
-from streamlit-geolocation import streamlit_geolocation
+from streamlit_geolocation import streamlit_geolocation
 
 MYSQL_HOST = st.secrets["MYSQL_HOST"]
 MYSQL_PORT = st.secrets["MYSQL_PORT"]
