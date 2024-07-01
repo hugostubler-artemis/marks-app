@@ -3,4 +3,4 @@ folium
 geopy
 streamlit_folium
 gpxpy
-mysql
+mysql-connector-python
