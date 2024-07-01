@@ -128,8 +128,11 @@ def main():
         st.sidebar.header('Ping the mark where you are')
         if st.sidebar.button("RC position"):
             #rc = [streamlit_geolocation(key="rc")['latitude'], streamlit_geolocation(key="rc")['longitude']]
-            loc = get_geolocation()
-            st.write(f"Your coordinates are {loc}")
+            location = streamlit_geolocation()
+
+            st.write(location)
+            #loc = get_geolocation()
+            #st.write(f"Your coordinates are {loc}")
             #rc = [streamlit_geolocation()['latitude'], streamlit_geolocation()['longitude']]
             #st.write(f"RC coordinates are {rc}")
             
