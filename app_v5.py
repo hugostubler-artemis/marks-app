@@ -139,13 +139,10 @@ def main():
         wg2 = st.session_state.get("wg2", [None, None])
 
         if st.button("RC position"):
-            try:
-                loc_string = streamlit_geolocation()
-            except:
-                print("error")
+            location = streamlit_geolocation()
+            st.write(location)
 
-            if loc_string is not None:
-                st.write(f"{loc_string}")
+
                 
             
 
