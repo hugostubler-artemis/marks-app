@@ -114,6 +114,7 @@ def main():
         st.write(f"Your coordinates are {rc_['coords']}")
         if rc_ is not None:
             rc = [rc_['coords']['latitude'], rc_['coords']['longitude']]
+            st.success('RC position well registered !')
     if st.checkbox("Ping Pin"):
         pin_ = get_actual_pos("Pin")
         st.write(f"Your coordinates are {pin_['coords']}")
