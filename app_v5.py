@@ -145,7 +145,7 @@ def main():
             #st.write(f"RC coordinates are {rc}")
             
         elif  st.sidebar.button("Pin Position"):
-            def get_actual_position():
+            # def get_actual_position():
                 
             pin = [streamlit_geolocation(key="pin")['latitude'], streamlit_geolocation(key="pin")['longitude']]
             st.write(f"Pin coordinates are {pin}")
