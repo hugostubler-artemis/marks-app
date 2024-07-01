@@ -108,7 +108,7 @@ def main():
     #    st.write(location)
     
     if st.checkbox("Check my location"):
-        loc = get_geolocation()
+        loc = get_geolocation(key="rc")
         st.write(f"Your coordinates are {loc}")
         
 
