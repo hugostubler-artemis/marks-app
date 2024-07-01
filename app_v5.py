@@ -109,7 +109,7 @@ def main():
     #    location = get_geolocation()
     #    st.write(location)
     
-    if st.checkbox("Ping RC"):
+    if st.button("Ping RC"):
         rc_ = get_actual_pos("RC")
         st.write(f"Your coordinates are {rc_['coords']}")
         if rc_ is not None:
