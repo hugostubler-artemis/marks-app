@@ -103,8 +103,9 @@ def main():
     # Slider for TWD
     twd = st.slider('True Wind Direction (TWD)', 0, 360, 0)
 
-    
-
+    if st.button("RC position"):
+        location = get_geolocation()
+        st.write(location)
     
 
     
@@ -142,12 +143,7 @@ def main():
         wg1 = st.session_state.get("wg1", [None, None])
         wg2 = st.session_state.get("wg2", [None, None])
 
-        if st.button("RC position"):
-            location = get_geolocation()
-            with st.spinner("Loading GPS position"):
-                long_computation()
-            
-            st.write(location)
+        
 
 
                 
