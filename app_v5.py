@@ -18,6 +18,10 @@ MYSQL_USR = st.secrets["MYSQL_USR"]
 MYSQL_PWD = st.secrets["MYSQL_PWD"]
 MYSQL_SCHEMA = st.secrets["MYSQL_SCHEMA"]
 
+def long_computation():
+    import time
+    time.sleep(10)
+
 
 def haversine(coord1, coord2):
     R = 6371  # Radius of the earth in km
@@ -139,6 +143,8 @@ def main():
         wg2 = st.session_state.get("wg2", [None, None])
 
         if st.button("RC position"):
+            with st.spinner("Running a long computation.."):
+                long_computation()
             location = streamlit_geolocation()
             st.write(location)
 
