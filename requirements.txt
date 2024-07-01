@@ -5,3 +5,4 @@ streamlit_folium
 gpxpy
 mysql-connector-python
 streamlit_js_eval
+streamlit-geolocation
