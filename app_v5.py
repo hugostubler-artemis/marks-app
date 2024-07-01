@@ -140,7 +140,7 @@ def main():
             #rc = [streamlit_geolocation(key="rc")['latitude'], streamlit_geolocation(key="rc")['longitude']]
             #location = streamlit_geolocation()
 
-            st.write(loc['coords'])
+            st.write(loc.coords)
             #loc = get_geolocation()
             #st.write(f"Your coordinates are {loc}")
             #rc = [streamlit_geolocation()['latitude'], streamlit_geolocation()['longitude']]
