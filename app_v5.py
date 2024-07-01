@@ -108,9 +108,10 @@ def main():
     #    st.write(location)
     
     if st.checkbox("Check my location"):
-        loc = get_geolocation(key="rc")
+        loc = get_geolocation()
         st.write(f"Your coordinates are {loc}")
-        
+        if loc is not None:
+            st.write(loc['coords']['latitude'])
 
     # Dropdown menu for selecting input method
     input_method = st.sidebar.selectbox(
