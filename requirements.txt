@@ -2,7 +2,6 @@ streamlit
 folium
 geopy
 streamlit_folium
-numpy
 json
 gpxpy
 mysql
