@@ -160,6 +160,7 @@ def main():
     winward_bias = distance_start * \
         np.tan((perpendicular_heading_win_gate-twd)*np.pi/180)
 
+
     # Slider for boundary width and length
     boundary_width = st.sidebar.slider('Boundary Width (NM)', 0.0, 2.0, 0.1)
     boundary_length = st.sidebar.slider('Boundary Length (NM)', 0.0, 2.0, .5)
@@ -228,15 +229,26 @@ def main():
 
     st.subheader('Race Course Details')
     st.write(f'Course Axis Heading: {course_heading:.2f}°')
-    st.write(f'Leeward gate square at: {perpendicular_heading_lee_gate:.2f}°')
-    st.write(f'Leeward gate distance: {distance_start:.2f}m')
-    st.write(f'Leeward gate bias: {start_bias:.2f}m')
+    #st.write(f'Leeward gate square at: {perpendicular_heading_lee_gate:.2f}°')
+    #st.write(f'Leeward gate distance: {distance_start:.2f}m')
+    #st.write(f'Leeward gate bias: {start_bias:.2f}m')
 
-    st.write(f'Windward gate square at: {perpendicular_heading_win_gate:.2f}°')
+    #st.write(f'Windward gate square at: {perpendicular_heading_win_gate:.2f}°')
 
-    st.write(f'Windward gate distance: {distance_uwgate:.2f}m')
-    st.write(f'Windward gate bias: {winward_bias:.2f}m')
+    #st.write(f'Windward gate distance: {distance_uwgate:.2f}m')
+    #st.write(f'Windward gate bias: {winward_bias:.2f}m')
+    
+    recap_table = pd.DataFrame(columns=['Leeward Gate','Winward Gate'], index=['Gate square at', 'Gate distance', 'Gate bias'])
+    recap_table.loc['Leeward Gate','Gate square at'] = f'{perpendicular_heading_lee_gate:.2f}°'
+    recap_table.loc['Leeward Gate','Gate distance'] = f'{distance_start:.2f}m'
+    recap_table.loc['Leeward Gate','Gate biast'] = f'{start_bias:.2f}m'
 
+    recap_table.loc['Winward Gate','Gate square at'] = f'{perpendicular_heading_win_gate:.2f}°'
+    recap_table.loc['Winward Gate','Gate distance'] = f'{distance_uwgate:.2f}m'
+    recap_table.loc['Winward Gate','Gate biast'] = f'{winward_bias:.2f}m'
+    
+    st.dataframe(recap_table)
+    
     folium_static(m)
 
     # Create JSON structure
