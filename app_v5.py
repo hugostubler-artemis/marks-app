@@ -186,8 +186,8 @@ def main():
 
 
     # Slider for boundary width and length
-    boundary_width = st.sidebar.slider('Boundary Width (NM)', 0.0, 2.0, 0.1)
-    boundary_length = st.sidebar.slider('Boundary Length (NM)', 0.0, 2.0, .5)
+    boundary_width = st.sidebar.slider('Boundary Width (NM)', 0.0, 2.0, 0.6)
+    boundary_length = st.sidebar.slider('Boundary Length (NM)', 0.0, 2.0, 1.1)
 
     # Calculate boundary coordinates around the marks
     def calculate_boundaries(marks, boundary_width, boundary_length):
