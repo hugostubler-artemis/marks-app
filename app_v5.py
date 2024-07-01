@@ -135,45 +135,8 @@ def main():
         wg1 = [float(wg1_lat), float(wg1_lon)]
         wg2 = [float(wg2_lat), float(wg2_lon)]
         
-    elif input_method == 'Actual Position':
-        st.sidebar.header('Ping the mark where you are')
-
-        rc = st.session_state.get("rc", [None, None])
-        pin = st.session_state.get("pin", [None, None])
-        wg1 = st.session_state.get("wg1", [None, None])
-        wg2 = st.session_state.get("wg2", [None, None])
-
-        
-
-
-                
-            
-
-        if st.button("Pin position"):
-            location = streamlit_geolocation(key="pin")
-            if location:
-                pin = [location['latitude'], location['longitude']]
-                st.session_state["pin"] = pin
-                st.write(f"Pin coordinates are {pin}")
-
-        if st.button("WG1 position"):
-            location = streamlit_geolocation(key="wg1")
-            if location:
-                wg1 = [location['latitude'], location['longitude']]
-                st.session_state["wg1"] = wg1
-                st.write(f"WG1 coordinates are {wg1}")
-
-        if st.button("WG2 position"):
-            location = streamlit_geolocation(key="wg2")
-            if location:
-                wg2 = [location['latitude'], location['longitude']]
-                st.session_state["wg2"] = wg2
-                st.write(f"WG2 coordinates are {wg2}")
-
-        if None in rc or None in pin or None in wg1 or None in wg2:
-            st.warning('Please provide coordinates for all marks.')
-            return
-            
+    
+          
     elif input_method == 'GPX coordinates':
         st.sidebar.header('Upload GPX Files')
         rc_file = st.sidebar.file_uploader('Upload RC GPX file', type=['gpx'])
