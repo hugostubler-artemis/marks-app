@@ -132,37 +132,43 @@ def main():
         
     elif input_method == 'Actual Position':
         st.sidebar.header('Ping the mark where you are')
+
+        rc = st.session_state.get("rc", [None, None])
+        pin = st.session_state.get("pin", [None, None])
+        wg1 = st.session_state.get("wg1", [None, None])
+        wg2 = st.session_state.get("wg2", [None, None])
+
         if st.button("RC position"):
-            loc = get_geolocation()
-            st.write(f"Your coordinates are {loc}")
-            
-            #rc = [streamlit_geolocation(key="rc")['latitude'], streamlit_geolocation(key="rc")['longitude']]
-            #location = streamlit_geolocation()
+            location = streamlit_geolocation(key="rc")
+            if location:
+                rc = [location['latitude'], location['longitude']]
+                st.session_state["rc"] = rc
+                st.write(f"RC coordinates are {rc}")
 
-            # st.write(loc.coords)
-            #loc = get_geolocation()
-            #st.write(f"Your coordinates are {loc}")
-            #rc = [streamlit_geolocation()['latitude'], streamlit_geolocation()['longitude']]
-            #st.write(f"RC coordinates are {rc}")
-            
-        elif  st.sidebar.button("Pin Position"):
-            # def get_actual_position():
-                
-            pin = [streamlit_geolocation(key="pin")['latitude'], streamlit_geolocation(key="pin")['longitude']]
-            st.write(f"Pin coordinates are {pin}")
-            
-        elif  st.sidebar.button("WG1 Position"):
-            wg1 = [streamlit_geolocation(key="wg1")['latitude'], streamlit_geolocation(key="wg1")['longitude']]
-            st.write(f"WG1 coordinates are {wg1}")
-            
-        elif  st.sidebar.button("WG2 Position"):
-            wg2 = [streamlit_geolocation(key="wg2")['latitude'], streamlit_geolocation(key="wg2")['longitude']] #[get_geolocation()[0], get_geolocation()[1]]
-            st.write(f"WG2 coordinates are {wg2}")
-            
-        else :
-            st.sidebar.write("don't forget to ping all the marks mate!")
-        
+        if st.button("Pin position"):
+            location = streamlit_geolocation(key="pin")
+            if location:
+                pin = [location['latitude'], location['longitude']]
+                st.session_state["pin"] = pin
+                st.write(f"Pin coordinates are {pin}")
 
+        if st.button("WG1 position"):
+            location = streamlit_geolocation(key="wg1")
+            if location:
+                wg1 = [location['latitude'], location['longitude']]
+                st.session_state["wg1"] = wg1
+                st.write(f"WG1 coordinates are {wg1}")
+
+        if st.button("WG2 position"):
+            location = streamlit_geolocation(key="wg2")
+            if location:
+                wg2 = [location['latitude'], location['longitude']]
+                st.session_state["wg2"] = wg2
+                st.write(f"WG2 coordinates are {wg2}")
+
+        if None in rc or None in pin or None in wg1 or None in wg2:
+            st.warning('Please provide coordinates for all marks.')
+            return
     elif input_method == 'GPX coordinates':
         st.sidebar.header('Upload GPX Files')
         rc_file = st.sidebar.file_uploader('Upload RC GPX file', type=['gpx'])
