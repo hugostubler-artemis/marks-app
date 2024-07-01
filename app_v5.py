@@ -99,6 +99,10 @@ def main():
     # Slider for TWD
     twd = st.slider('True Wind Direction (TWD)', 0, 360, 0)
 
+    location = streamlit_geolocation()
+
+    st.write(location)
+
     # Dropdown menu for selecting input method
     input_method = st.sidebar.selectbox(
         'Select Input Method', ('Actual Position', 'Manual coordinates', 'GPX coordinates'))
