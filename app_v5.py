@@ -139,7 +139,7 @@ def main():
         wg2 = st.session_state.get("wg2", [None, None])
 
         if st.button("RC position"):
-            location = streamlit_geolocation(key="rc")
+            location = streamlit_geolocation()
             if location:
                 rc = [location['latitude'], location['longitude']]
                 st.session_state["rc"] = rc
@@ -169,6 +169,7 @@ def main():
         if None in rc or None in pin or None in wg1 or None in wg2:
             st.warning('Please provide coordinates for all marks.')
             return
+            
     elif input_method == 'GPX coordinates':
         st.sidebar.header('Upload GPX Files')
         rc_file = st.sidebar.file_uploader('Upload RC GPX file', type=['gpx'])
