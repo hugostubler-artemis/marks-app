@@ -107,11 +107,17 @@ def main():
     #    location = get_geolocation()
     #    st.write(location)
     
-    if st.checkbox("Check my location"):
-        loc = get_geolocation()
+    if st.checkbox("Ping RC"):
+        rc = get_geolocation()
         st.write(f"Your coordinates are {loc}")
-        if loc is not None:
-            st.write(loc['coords']['latitude'])
+        if rc is not None:
+            rc = [loc['coords']['latitude'], loc['coords']['longitude']]
+    if st.checkbox("Ping Pin"):
+        pin = get_geolocation()
+        st.write(f"Your coordinates are {loc}")
+        if pin is not None:
+            pin = [loc['coords']['latitude'], loc['coords']['longitude']]
+
 
     # Dropdown menu for selecting input method
     input_method = st.sidebar.selectbox(
