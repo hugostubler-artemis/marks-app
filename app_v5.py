@@ -10,11 +10,11 @@ import time
 import gpxpy
 import mysql.connector
 
-MYSQL_HOST = st.secrets("MYSQL_HOST")
-MYSQL_PORT = st.secrets("MYSQL_PORT")
-MYSQL_USR = st.secrets("MYSQL_USR")
-MYSQL_PWD = st.secrets("MYSQL_PWD")
-MYSQL_SCHEMA = st.secrets("MYSQL_SCHEMA")
+MYSQL_HOST = st.secrets["MYSQL_HOST"]
+MYSQL_PORT = st.secrets["MYSQL_PORT"]
+MYSQL_USR = st.secrets["MYSQL_USR"]
+MYSQL_PWD = st.secrets["MYSQL_PWD"]
+MYSQL_SCHEMA = st.secrets["MYSQL_SCHEMA]
 
 
 def haversine(coord1, coord2):
