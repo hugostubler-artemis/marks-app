@@ -10,6 +10,7 @@ import time
 import gpxpy
 import mysql.connector
 from streamlit_js_eval import get_geolocation
+from streamlit-geolocation import streamlit-geolocation
 
 MYSQL_HOST = st.secrets["MYSQL_HOST"]
 MYSQL_PORT = st.secrets["MYSQL_PORT"]
@@ -126,19 +127,19 @@ def main():
     elif input_method == 'Actual Position':
         st.sidebar.header('Ping the mark where you are')
         if st.button("RC position"):
-            rc = [get_geolocation()[0], get_geolocation()[1]]
+            rc = [streamlit_geolocation()['latitude'], streamlit_geolocation()['longitude']]
             st.write(f"RC coordinates are {rc}")
             
         elif  st.sidebar.button("Pin Position"):
-            pin = [get_geolocation()[0], get_geolocation()[1]]
+            pin = [streamlit_geolocation()['latitude'], streamlit_geolocation()['longitude']]
             st.write(f"Pin coordinates are {pin}")
             
         elif  st.sidebar.button("WG1 Position"):
-            wg1 = [get_geolocation()[0], get_geolocation()[1]]
+            wg1 = [streamlit_geolocation()['latitude'], streamlit_geolocation()['longitude']]
             st.write(f"WG1 coordinates are {wg1}")
             
         elif  st.sidebar.button("WG2 Position"):
-            wg2 = [get_geolocation()[0], get_geolocation()[1]]
+            wg2 = [streamlit_geolocation()['latitude'], streamlit_geolocation()['longitude']] #[get_geolocation()[0], get_geolocation()[1]]
             st.write(f"WG2 coordinates are {wg2}")
             
         else :
