@@ -143,7 +143,7 @@ def main():
         wg2 = st.session_state.get("wg2", [None, None])
 
         if st.button("RC position"):
-            location = streamlit_geolocation()
+            location = get_geolocation()
             with st.spinner("Loading GPS position"):
                 long_computation()
             
