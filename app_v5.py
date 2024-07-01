@@ -328,12 +328,13 @@ def main():
     )
 
     if st.button("Upload to Database"):
-        coordinates = {
-            "marks": [rc, pin, wg1, wg2],
-            "boundary": boundary_coords[:-1]
-        }
-        insert_into_database(coordinates)
-
+        if st.checkbox("Confirm ?")
+            coordinates = {
+                "marks": [rc, pin, wg1, wg2],
+                "boundary": boundary_coords[:-1]
+            }
+            insert_into_database(coordinates)
+    
 
 if __name__ == "__main__":
     main()
