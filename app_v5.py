@@ -9,6 +9,7 @@ import json
 import time
 import gpxpy
 import mysql.connector
+from streamlit_js_eval import get_geolocation
 
 MYSQL_HOST = st.secrets["MYSQL_HOST"]
 MYSQL_PORT = st.secrets["MYSQL_PORT"]
@@ -99,7 +100,7 @@ def main():
 
     # Dropdown menu for selecting input method
     input_method = st.sidebar.selectbox(
-        'Select Input Method', ('Manual coordinates', 'GPX coordinates'))
+        'Select Input Method', ('Actual Position', 'Manual coordinates', 'GPX coordinates'))
 
     rc, pin, wg1, wg2 = [None, None], [None, None], [None, None], [None, None]
     waypoints = []
@@ -121,6 +122,20 @@ def main():
         pin = [float(pin_lat), float(pin_lon)]
         wg1 = [float(wg1_lat), float(wg1_lon)]
         wg2 = [float(wg2_lat), float(wg2_lon)]
+        
+    elif input_method == 'Actual Position':
+        st.sidebar.header('Ping the mark where you are')
+        if st.button("RC position"):
+            
+        elif  st.button("Pin Position"):
+            
+        elif  st.button("WG1 Position"):
+
+        elif  st.button("WG2 Position"):
+
+        else :
+            st.write("don't forget to ping all the marks mate!")
+        
 
     elif input_method == 'GPX coordinates':
         st.sidebar.header('Upload GPX Files')
