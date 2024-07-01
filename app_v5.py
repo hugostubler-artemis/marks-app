@@ -110,7 +110,7 @@ def main():
     #    st.write(location)
     
     if st.checkbox("Ping RC"):
-        rc_ = get_actual_pos()
+        rc_ = get_actual_pos(key="RC")
         st.write(f"Your coordinates are {rc_['coords']}")
         if rc_ is not None:
             rc = [rc_['coords']['latitude'], rc_['coords']['longitude']]
