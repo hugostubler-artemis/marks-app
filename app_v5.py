@@ -107,7 +107,9 @@ def main():
         location = get_geolocation()
         st.write(location)
     
-
+    if st.checkbox("Check my location"):
+    loc = get_geolocation()
+    st.write(f"Your coordinates are {loc}")
     
 
     # Dropdown menu for selecting input method
