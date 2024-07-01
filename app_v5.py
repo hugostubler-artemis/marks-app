@@ -78,8 +78,8 @@ def insert_into_database(coordinates):
 def add_marker(map_obj, location, tooltip):
     folium.Marker(location=location, tooltip=tooltip).add_to(map_obj)
 
-def get_actual_pos():
-    return get_geolocation()
+def get_actual_pos(key):
+    return get_geolocation(component_key=key)
 
 def move_point(origin, bearing, distance_nm):
     """Move a point by a given distance (in nautical miles) at a given bearing."""
@@ -110,12 +110,12 @@ def main():
     #    st.write(location)
     
     if st.checkbox("Ping RC"):
-        rc_ = get_actual_pos(key="RC")
+        rc_ = get_actual_pos("RC")
         st.write(f"Your coordinates are {rc_['coords']}")
         if rc_ is not None:
             rc = [rc_['coords']['latitude'], rc_['coords']['longitude']]
     if st.checkbox("Ping Pin"):
-        pin_ = get_actual_pos()
+        pin_ = get_actual_pos("Pin")
         st.write(f"Your coordinates are {pin_['coords']}")
         if pin_ is not None:
             pin = [pin_['coords']['latitude'], pin_['coords']['longitude']]
