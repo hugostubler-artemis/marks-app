@@ -139,13 +139,15 @@ def main():
         wg2 = st.session_state.get("wg2", [None, None])
 
         if st.button("RC position"):
-            location = streamlit_geolocation()
-            loc = get_geolocation()
-            st.write(f"Your coordinates are {loc}")
-            if location:
-                rc = [location['latitude'], location['longitude']]
-                st.session_state["rc"] = rc
-                st.write(f"RC coordinates are {rc}")
+            try:
+                loc_string = streamlit_geolocation()
+            except:
+                print("error")
+
+            if loc_string is not None:
+                st.write(f"{loc_string}")
+                
+            
 
         if st.button("Pin position"):
             location = streamlit_geolocation(key="pin")
