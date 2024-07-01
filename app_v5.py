@@ -110,15 +110,15 @@ def main():
     #    st.write(location)
     
     if st.checkbox("Ping RC"):
-        rc = get_actual_pos()
-        st.write(f"Your coordinates are {rc['coords']}")
+        rc_ = get_actual_pos()
+        st.write(f"Your coordinates are {rc_['coords']}")
         if rc is not None:
-            rc = [loc['coords']['latitude'], loc['coords']['longitude']]
+            rc = [rc_['coords']['latitude'], rc_['coords']['longitude']]
     if st.checkbox("Ping Pin"):
-        pin = get_actual_pos()
-        st.write(f"Your coordinates are {pin['coords']}")
+        pin_ = get_actual_pos()
+        st.write(f"Your coordinates are {pin_['coords']}")
         if pin is not None:
-            pin = [loc['coords']['latitude'], loc['coords']['longitude']]
+            pin = [pin_['coords']['latitude'], pin_['coords']['longitude']]
 
 
     # Dropdown menu for selecting input method
