@@ -140,6 +140,8 @@ def main():
 
         if st.button("RC position"):
             location = streamlit_geolocation()
+            loc = get_geolocation()
+            st.write(f"Your coordinates are {loc}")
             if location:
                 rc = [location['latitude'], location['longitude']]
                 st.session_state["rc"] = rc
