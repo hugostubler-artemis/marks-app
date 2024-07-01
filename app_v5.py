@@ -126,13 +126,21 @@ def main():
     elif input_method == 'Actual Position':
         st.sidebar.header('Ping the mark where you are')
         if st.button("RC position"):
+            rc =  = [get_geolocation()[0], get_geolocation()[1]]
+            st.write(f"RC coordinates are {rc}")
             
         elif  st.button("Pin Position"):
+            pin =  = [get_geolocation()[0], get_geolocation()[1]]
+            st.write(f"Pin coordinates are {pin}")
             
         elif  st.button("WG1 Position"):
-
+            wg1 =  = [get_geolocation()[0], get_geolocation()[1]]
+            st.write(f"WG1 coordinates are {wg1}")
+            
         elif  st.button("WG2 Position"):
-
+            wg2 =  = [get_geolocation()[0], get_geolocation()[1]]
+            st.write(f"WG2 coordinates are {wg2}")
+            
         else :
             st.write("don't forget to ping all the marks mate!")
         
