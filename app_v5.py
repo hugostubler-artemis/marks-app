@@ -126,20 +126,22 @@ def main():
         
     elif input_method == 'Actual Position':
         st.sidebar.header('Ping the mark where you are')
-        if st.button("RC position"):
-            rc = [streamlit_geolocation()['latitude'], streamlit_geolocation()['longitude']]
+        if st.sidebar.button("RC position"):
+            rc = [streamlit_geolocation(key="rc")['latitude'], streamlit_geolocation(key="rc")['longitude']]
             st.write(f"RC coordinates are {rc}")
+            #rc = [streamlit_geolocation()['latitude'], streamlit_geolocation()['longitude']]
+            #st.write(f"RC coordinates are {rc}")
             
         elif  st.sidebar.button("Pin Position"):
-            pin = [streamlit_geolocation()['latitude'], streamlit_geolocation()['longitude']]
+            pin = [streamlit_geolocation(key="pin")['latitude'], streamlit_geolocation(key="pin")['longitude']]
             st.write(f"Pin coordinates are {pin}")
             
         elif  st.sidebar.button("WG1 Position"):
-            wg1 = [streamlit_geolocation()['latitude'], streamlit_geolocation()['longitude']]
+            wg1 = [streamlit_geolocation(key="wg1")['latitude'], streamlit_geolocation(key="wg1")['longitude']]
             st.write(f"WG1 coordinates are {wg1}")
             
         elif  st.sidebar.button("WG2 Position"):
-            wg2 = [streamlit_geolocation()['latitude'], streamlit_geolocation()['longitude']] #[get_geolocation()[0], get_geolocation()[1]]
+            wg2 = [streamlit_geolocation(key="wg2")['latitude'], streamlit_geolocation(key="wg2")['longitude']] #[get_geolocation()[0], get_geolocation()[1]]
             st.write(f"WG2 coordinates are {wg2}")
             
         else :
