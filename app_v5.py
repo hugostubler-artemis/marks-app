@@ -54,7 +54,7 @@ def insert_into_database(coordinates):
         current_time = time.strftime('%Y-%m-%d %H:%M:%S')
 
         # Insert mark coordinates
-        mark_types = ['RC', 'Pin', 'WG1', 'WG2']
+        mark_types = ['RC', 'Pin', 'WGR', 'WGL']
         for i, mark in enumerate(coordinates['marks']):
             cursor.execute(
                 query, (mark_types[i], mark[0], mark[1], current_time))
@@ -285,13 +285,13 @@ def main():
     #st.write(f'Windward gate bias: {winward_bias:.0f}m')
     
     recap_table = pd.DataFrame(columns=['Leeward Gate','Winward Gate'], index=['Gate square at', 'Gate distance', 'Gate bias'])
-    recap_table.loc['Gate square at', 'Leeward Gate'] = f'{perpendicular_heading_lee_gate:.2f}°'
-    recap_table.loc['Gate distance', 'Leeward Gate'] = f'{distance_start:.2f}m'
-    recap_table.loc['Gate bias', 'Leeward Gate'] = f'{start_bias:.2f}m'
+    recap_table.loc['Gate square at', 'Leeward Gate'] = f'{perpendicular_heading_lee_gate:.0f}°'
+    recap_table.loc['Gate distance', 'Leeward Gate'] = f'{distance_start:.0f}m'
+    recap_table.loc['Gate bias', 'Leeward Gate'] = f'{start_bias:.0f}m'
 
-    recap_table.loc['Gate square at', 'Winward Gate'] = f'{perpendicular_heading_win_gate:.2f}°'
-    recap_table.loc['Gate distance', 'Winward Gate'] = f'{distance_uwgate:.2f}m'
-    recap_table.loc['Gate bias', 'Winward Gate'] = f'{winward_bias:.2f}m'
+    recap_table.loc['Gate square at', 'Winward Gate'] = f'{perpendicular_heading_win_gate:.0f}°'
+    recap_table.loc['Gate distance', 'Winward Gate'] = f'{distance_uwgate:.0f}m'
+    recap_table.loc['Gate bias', 'Winward Gate'] = f'{winward_bias:.0f}m'
     
     st.dataframe(recap_table)
     
