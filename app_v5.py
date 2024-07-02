@@ -198,7 +198,7 @@ def main():
     course_heading = calculate_heading(rc, wg1)
     perpendicular_heading = (course_heading + 90) % 360
     perpendicular_heading_lee_gate = (calculate_heading(rc, pin) + 90) % 360
-    perpendicular_heading_win_gate = (calculate_heading(wg2, wg1) + 90) % 360
+    perpendicular_heading_win_gate = (calculate_heading(wg1, wg2) + 90) % 360
     distance_start = haversine(rc, pin)
     distance_uwgate = haversine(wg1, wg2)
     start_bias = distance_start * \
@@ -274,15 +274,15 @@ def main():
                     dash_array='5, 10').add_to(m)
 
     st.subheader('Race Course Details')
-    st.write(f'Course Axis Heading: {course_heading:.2f}°')
-    #st.write(f'Leeward gate square at: {perpendicular_heading_lee_gate:.2f}°')
-    #st.write(f'Leeward gate distance: {distance_start:.2f}m')
-    #st.write(f'Leeward gate bias: {start_bias:.2f}m')
+    st.write(f'Course Axis Heading: {course_heading:.0f}°')
+    #st.write(f'Leeward gate square at: {perpendicular_heading_lee_gate:.0f}°')
+    #st.write(f'Leeward gate distance: {distance_start:.0f}m')
+    #st.write(f'Leeward gate bias: {start_bias:.0f}m')
 
-    #st.write(f'Windward gate square at: {perpendicular_heading_win_gate:.2f}°')
+    #st.write(f'Windward gate square at: {perpendicular_heading_win_gate:.0f}°')
 
-    #st.write(f'Windward gate distance: {distance_uwgate:.2f}m')
-    #st.write(f'Windward gate bias: {winward_bias:.2f}m')
+    #st.write(f'Windward gate distance: {distance_uwgate:.0f}m')
+    #st.write(f'Windward gate bias: {winward_bias:.0f}m')
     
     recap_table = pd.DataFrame(columns=['Leeward Gate','Winward Gate'], index=['Gate square at', 'Gate distance', 'Gate bias'])
     recap_table.loc['Gate square at', 'Leeward Gate'] = f'{perpendicular_heading_lee_gate:.2f}°'
