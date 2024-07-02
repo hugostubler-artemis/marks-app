@@ -351,7 +351,7 @@ def main():
     )
 
     if st.button("Upload to Database"):
-        if st.checkbox("Confirm ?"):
+        #if st.checkbox("Confirm ?"):
             coordinates = {
                 "marks": [rc, pin, wg1, wg2],
                 "boundary": boundary_coords[:-1]
