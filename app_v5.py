@@ -103,7 +103,7 @@ def main():
     st.title('Sailing Race Course Setup')
 
     # Slider for TWD
-    twd = st.slider('True Wind Direction (TWD)', 0, 360, 0)
+    twd = st.slider('True Wind Direction (TWD)', 0, 360, 160)
 
     #if st.button("RC position"):
     #    location = get_geolocation()
@@ -304,7 +304,7 @@ def main():
         "OtherAreas": [],
         "CreationTimeDate": time.time(),
         "CreationTime": time.time(),
-        "RaceStartTime": time.time() + 600,
+        "RaceStartTime": time.time() + 18000,
         "EntryBeforeStartBlue": 130.0,
         "EntryBeforeStartYellow": 120.0,
         "RaceType": "Match",
