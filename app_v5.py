@@ -172,16 +172,16 @@ def main():
         st.sidebar.header('Input Coordinates')
 
         # Input coordinates for the marks
-        rc_coord = st.sidebar.text_input('RC coordinates', '(41.426929,2.25418')
+        rc_coord = st.sidebar.text_input('RC coordinates', '(41.426929,2.25418)')
         pin_coord = st.sidebar.text_input('Pin coordinates', '(41.428403,2.2526792)')
         wg1_coord = st.sidebar.text_input('WG1 coordinates', '(41.436155,2.2860348)')
         wg2_coord = st.sidebar.text_input('WG2 coordinates', '(41.43448679,2.286550)')
     
         # Parse coordinates from strings to floats
-        rc = [float(coord) for coord in rc_coord.split(',')[1,-1]]
-        pin = [float(coord) for coord in pin_coord.split(',')[1,-1]]
-        wg1 = [float(coord) for coord in wg1_coord.split(',')[1,-1]]
-        wg2 = [float(coord) for coord in wg2_coord.split(',')[1,-1]]
+        rc = [float(coord) for coord in rc_coord[1,-1].split(',')]
+        pin = [float(coord) for coord in pin_coord[1,-1].split(',')]
+        wg1 = [float(coord) for coord in wg1_coord[1,-1].split(',')]
+        wg2 = [float(coord) for coord in wg2_coord[1,-1].split(',')]
         
     
           
