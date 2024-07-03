@@ -158,35 +158,7 @@ def main():
 
     rc, pin, wg1, wg2 = [None, None], [None, None], [None, None], [None, None]
     waypoints = []
-    '''
-    st.write("You can either ping the mark directly by checking the box to ping or use the method in the slidebar")
-    if st.checkbox("Ping RC"):
-        rc_ = get_actual_pos("RC")
-        #st.write(f"Your coordinates are {rc_['coords']}")
-        if rc_ is not None:
-            rc = [rc_['coords']['latitude'], rc_['coords']['longitude']]
-            st.success('RC position well registered !')
-    if st.checkbox("Ping Pin"):
-        pin_ = get_actual_pos("Pin")
-        #st.write(f"Your coordinates are {pin_['coords']}")
-        if pin_ is not None:
-            pin = [pin_['coords']['latitude'], pin_['coords']['longitude']]
-            st.success('pin position well registered !')
-
-    if st.checkbox("Ping WG1"):
-        wg1_ = get_actual_pos("WG1")
-        #st.write(f"Your coordinates are {wg1_['coords']}")
-        if wg1_ is not None:
-            wg1 = [wg1_['coords']['latitude'], wg1_['coords']['longitude']]
-            st.success('WG1 position well registered !')
-
-    if st.checkbox("Ping WG2"):
-        wg2_ = get_actual_pos("WG2")
-        # st.write(f"Your coordinates are {wg2_['coords']}")
-        if wg2_ is not None:
-            wg2 = [wg2_['coords']['latitude'], wg2_['coords']['longitude']]
-            st.success('WG2 position well registered !')
-    '''
+    
     if input_method == 'Manual coordinates':
         st.write('copy paste Google Maps coordinates')
         st.sidebar.header('Input Coordinates')
