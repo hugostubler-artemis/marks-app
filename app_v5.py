@@ -284,12 +284,12 @@ def main():
     st.dataframe(recap_table)
 
    
-    st.header('If you want to update a virtual top gate')
-    course_bearing = st.slider('Course Bearing (degrees)', 0, 360, 0)
-    gate_distance = st.slider('Distance to Gate (NM)', 0.0, 3.0, 1.12)
-    gate_separation = st.slider('Gate Separation (NM)', 0.0, 1.0, 0.25)
+    st.sidebar.header('If you want to update a virtual top gate')
+    course_bearing = st.sidebar.slider('Course Bearing (degrees)', 0, 360, 0)
+    gate_distance = st.sidebar.slider('Distance to Gate (NM)', 0.0, 3.0, 1.12)
+    gate_separation = st.sidebar.slider('Gate Separation (NM)', 0.0, 1.0, 0.25)
     
-    if st.button('Calculate Gate Coordinates'):
+    if st.sidebar.button('Calculate Gate Coordinates'):
         wg1, wg2 = calculate_gate_coordinates(
             rc, course_bearing, gate_distance, gate_separation)
         st.write(f"Mark 1 Coordinates: {wg1}")
