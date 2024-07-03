@@ -323,7 +323,7 @@ def main():
         latest_marks = rc, pin, wg1, wg2
         if latest_marks:
             st.write("Latest Marks from Database:")
-            st.write(latest_marks)
+            st.write(pin)
             
         
     
