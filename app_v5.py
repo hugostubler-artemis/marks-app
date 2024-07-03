@@ -23,7 +23,33 @@ def long_computation():
     time.sleep(3)
 
 
-
+def fetch_latest_marks():
+    try:
+        conn = mysql.connector.connect(
+            host=MYSQL_HOST,
+            port=MYSQL_PORT,
+            user=MYSQL_USR,
+            password=MYSQL_PWD,
+            database=MYSQL_SCHEMA
+        )
+        cursor = conn.cursor()
+        query = """
+        SELECT `type`, `latitude`, `longitude`, `dropTimeUtc`
+        FROM `coursemarks`
+        ORDER BY `dropTimeUtc` DESC
+        LIMIT 8
+        """
+        cursor.execute(query)
+        result = cursor.fetchall()
+        marks = {row[0]: [row[1], row[2]] for row in result}
+        return marks
+    except mysql.connector.Error as err:
+        st.error(f"Error: {err}")
+        return None
+    finally:
+        if conn.is_connected():
+            cursor.close()
+            conn.close()
 
 
 def calculate_gate_coordinates(start_point, bearing, distance_nm, separation_nm):
@@ -135,11 +161,11 @@ def main():
 
     # Dropdown menu for selecting input method
     input_method = st.sidebar.selectbox(
-        'Select Input Method', ('Actual Position', 'Manual coordinates', 'GPX coordinates'))
+        'Select Input Method', ('Manual coordinates', 'GPX coordinates'))
 
     rc, pin, wg1, wg2 = [None, None], [None, None], [None, None], [None, None]
     waypoints = []
-
+    '''
     st.write("You can either ping the mark directly by checking the box to ping or use the method in the slidebar")
     if st.checkbox("Ping RC"):
         rc_ = get_actual_pos("RC")
@@ -167,8 +193,9 @@ def main():
         if wg2_ is not None:
             wg2 = [wg2_['coords']['latitude'], wg2_['coords']['longitude']]
             st.success('WG2 position well registered !')
-
+    '''
     if input_method == 'Manual coordinates':
+        st.write('copy paste Google Maps coordinates')
         st.sidebar.header('Input Coordinates')
 
         # Input coordinates for the marks
@@ -178,10 +205,10 @@ def main():
         wg2_coord = st.sidebar.text_input('WG2 coordinates', '(41.43448679,2.286550)')
     
         # Parse coordinates from strings to floats
-        rc = [float(coord) for coord in rc_coord[1,-1].split(',')]
-        pin = [float(coord) for coord in pin_coord[1,-1].split(',')]
-        wg1 = [float(coord) for coord in wg1_coord[1,-1].split(',')]
-        wg2 = [float(coord) for coord in wg2_coord[1,-1].split(',')]
+        rc = [float(coord) for coord in rc_coord[1:-1].split(',')]
+        pin = [float(coord) for coord in pin_coord[1:-1].split(',')]
+        wg1 = [float(coord) for coord in wg1_coord[1:-1].split(',')]
+        wg2 = [float(coord) for coord in wg2_coord[1:-1].split(',')]
         
     
           
@@ -317,8 +344,16 @@ def main():
     course_bearing = st.slider('Course Bearing (degrees)', 0, 360, 0)
     gate_distance = st.slider('Distance to Gate (NM)', 0.0, 3.0, 1.12)
     gate_separation = st.slider('Gate Separation (NM)', 0.0, 1.0, 0.25)
+
+    if st.button('Load latest mark from database :'):
+        latest_marks = fetch_latest_marks()
+        latest_marks = rc, pin, wg1, wg2, b1, b2, b3, b4
+        if latest_marks:
+            st.write("Latest Marks from Database:")
+            st.write(latest_marks)
+        
     
-    if st.sidebar.button('Calculate Gate Coordinates'):
+    if st.button('Calculate Gate Coordinates'):
         wg1, wg2 = calculate_gate_coordinates(
             initial_point, course_bearing, gate_distance, gate_separation)
         st.write(f"Mark 1 Coordinates: {wg1}")
