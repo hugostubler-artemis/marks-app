@@ -282,6 +282,54 @@ def main():
     boundary_coords = calculate_boundaries(
         marks, boundary_width, boundary_length)
 
+    
+
+    st.subheader('Race Course Details')
+    st.write(f'Course Axis Heading: {course_heading:.0f}°')
+    #st.write(f'Leeward gate square at: {perpendicular_heading_lee_gate:.0f}°')
+    #st.write(f'Leeward gate distance: {distance_start:.0f}m')
+    #st.write(f'Leeward gate bias: {start_bias:.0f}m')
+
+    #st.write(f'Windward gate square at: {perpendicular_heading_win_gate:.0f}°')
+
+    #st.write(f'Windward gate distance: {distance_uwgate:.0f}m')
+    #st.write(f'Windward gate bias: {winward_bias:.0f}m')
+    
+    recap_table = pd.DataFrame(columns=['Leeward Gate','Winward Gate'], index=['Gate square at', 'Gate distance', 'Gate bias'])
+    recap_table.loc['Gate square at', 'Leeward Gate'] = f'{perpendicular_heading_lee_gate:.0f}°'
+    recap_table.loc['Gate distance', 'Leeward Gate'] = f'{distance_start:.0f}m'
+    recap_table.loc['Gate bias', 'Leeward Gate'] = f'{start_bias:.0f}m'
+
+    recap_table.loc['Gate square at', 'Winward Gate'] = f'{perpendicular_heading_win_gate:.0f}°'
+    recap_table.loc['Gate distance', 'Winward Gate'] = f'{distance_uwgate:.0f}m'
+    recap_table.loc['Gate bias', 'Winward Gate'] = f'{winward_bias:.0f}m'
+    
+    st.dataframe(recap_table)
+
+   
+    st.header('If you want to update a virtual top gate')
+    course_bearing = st.slider('Course Bearing (degrees)', 0, 360, 0)
+    gate_distance = st.slider('Distance to Gate (NM)', 0.0, 3.0, 1.12)
+    gate_separation = st.slider('Gate Separation (NM)', 0.0, 1.0, 0.25)
+    
+    if st.button('Calculate Gate Coordinates'):
+        wg1, wg2 = calculate_gate_coordinates(
+            rc, course_bearing, gate_distance, gate_separation)
+        st.write(f"Mark 1 Coordinates: {wg1}")
+        st.write(f"Mark 2 Coordinates: {wg2}")
+    
+    if st.button('Load latest mark from database :'):
+        latest_marks = fetch_latest_marks()
+        latest_marks = rc, pin, wg1, wg2
+        if latest_marks:
+            st.write("Latest Marks from Database:")
+            st.write(latest_marks)
+            
+        
+    
+    
+
+
     # Display map
     center = (np.array(rc) + np.array(wg1) + np.array(wg2) + np.array(pin)) / 4
 
@@ -309,50 +357,6 @@ def main():
 
     folium.PolyLine(locations=boundary_coords, color='red',
                     dash_array='5, 10').add_to(m)
-
-    st.subheader('Race Course Details')
-    st.write(f'Course Axis Heading: {course_heading:.0f}°')
-    #st.write(f'Leeward gate square at: {perpendicular_heading_lee_gate:.0f}°')
-    #st.write(f'Leeward gate distance: {distance_start:.0f}m')
-    #st.write(f'Leeward gate bias: {start_bias:.0f}m')
-
-    #st.write(f'Windward gate square at: {perpendicular_heading_win_gate:.0f}°')
-
-    #st.write(f'Windward gate distance: {distance_uwgate:.0f}m')
-    #st.write(f'Windward gate bias: {winward_bias:.0f}m')
-    
-    recap_table = pd.DataFrame(columns=['Leeward Gate','Winward Gate'], index=['Gate square at', 'Gate distance', 'Gate bias'])
-    recap_table.loc['Gate square at', 'Leeward Gate'] = f'{perpendicular_heading_lee_gate:.0f}°'
-    recap_table.loc['Gate distance', 'Leeward Gate'] = f'{distance_start:.0f}m'
-    recap_table.loc['Gate bias', 'Leeward Gate'] = f'{start_bias:.0f}m'
-
-    recap_table.loc['Gate square at', 'Winward Gate'] = f'{perpendicular_heading_win_gate:.0f}°'
-    recap_table.loc['Gate distance', 'Winward Gate'] = f'{distance_uwgate:.0f}m'
-    recap_table.loc['Gate bias', 'Winward Gate'] = f'{winward_bias:.0f}m'
-    
-    st.dataframe(recap_table)
-
-    st.write("If you want to update a virtual top gate")
-    st.header('Gate Parameters')
-    course_bearing = st.slider('Course Bearing (degrees)', 0, 360, 0)
-    gate_distance = st.slider('Distance to Gate (NM)', 0.0, 3.0, 1.12)
-    gate_separation = st.slider('Gate Separation (NM)', 0.0, 1.0, 0.25)
-
-    if st.button('Load latest mark from database :'):
-        latest_marks = fetch_latest_marks()
-        latest_marks = rc, pin, wg1, wg2
-        if latest_marks:
-            st.write("Latest Marks from Database:")
-            st.write(latest_marks)
-            
-        
-    
-    if st.button('Calculate Gate Coordinates'):
-        wg1, wg2 = calculate_gate_coordinates(
-            rc, course_bearing, gate_distance, gate_separation)
-        st.write(f"Mark 1 Coordinates: {wg1}")
-        st.write(f"Mark 2 Coordinates: {wg2}")
-        
     
     folium_static(m)
 
