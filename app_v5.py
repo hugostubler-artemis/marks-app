@@ -23,6 +23,26 @@ def long_computation():
     time.sleep(3)
 
 
+
+
+
+def calculate_gate_coordinates(start_point, bearing, distance_nm, separation_nm):
+    # Calculate the center of the gate
+    gate_center = move_point(start_point, bearing, distance_nm)
+
+    # Calculate the bearings for the gate marks (perpendicular to the course bearing)
+    perpendicular_bearing = (bearing + 90) % 360
+    opposite_perpendicular_bearing = (bearing - 90) % 360
+
+    # Calculate the positions of the two gate marks
+    mark1 = move_point(gate_center, perpendicular_bearing, separation_nm / 2)
+    mark2 = move_point(
+        gate_center, opposite_perpendicular_bearing, separation_nm / 2)
+
+    return mark1, mark2
+
+
+
 def haversine(coord1, coord2):
     R = 6371  # Radius of the earth in km
     lat1, lon1 = coord1
@@ -54,7 +74,7 @@ def insert_into_database(coordinates):
         current_time = time.strftime('%Y-%m-%d %H:%M:%S')
 
         # Insert mark coordinates
-        mark_types = ['RC', 'Pin', 'WGR', 'WGL']
+        mark_types = ['RC', 'PIN', 'WGR', 'WGL']
         for i, mark in enumerate(coordinates['marks']):
             cursor.execute(
                 query, (mark_types[i], mark[0], mark[1], current_time))
@@ -152,19 +172,17 @@ def main():
         st.sidebar.header('Input Coordinates')
 
         # Input coordinates for the marks
-        rc_lat = st.sidebar.text_input('RC Latitude', '41.4269294331907')
-        rc_lon = st.sidebar.text_input('RC Longitude', '2.254188602965819')
-        pin_lat = st.sidebar.text_input('Pin Latitude', '41.428403727639264')
-        pin_lon = st.sidebar.text_input('Pin Longitude', '2.2526792367673165')
-        wg1_lat = st.sidebar.text_input('WG1 Latitude', '41.43615599027518')
-        wg1_lon = st.sidebar.text_input('WG1 Longitude', '2.2860348853217105')
-        wg2_lat = st.sidebar.text_input('WG2 Latitude', '41.434486794864625')
-        wg2_lon = st.sidebar.text_input('WG2 Longitude', '2.2865501736423925')
+        rc_coord = st.sidebar.text_input('RC coordinates', (41.426929,2.254188))
+        pin_coord = st.sidebar.text_input('RC coordinates', (41.428403,2.2526792))
+        wg1_coord = st.sidebar.text_input('RC coordinates', (41.436155,2.2860348))
+        wg2_coord = st.sidebar.text_input('RC coordinates', (41.43448679,2.286550))
+        
+        
 
-        rc = [float(rc_lat), float(rc_lon)]
-        pin = [float(pin_lat), float(pin_lon)]
-        wg1 = [float(wg1_lat), float(wg1_lon)]
-        wg2 = [float(wg2_lat), float(wg2_lon)]
+        rc = [rc_coord[0], rc_coord[1]]
+        pin = [pin_coord[0], pin_coord[1]]
+        wg1 = [wg1_coord[0], wg1_coord[1]]
+        wg2 = [wg2_coord[0], wg2_coord[1]]
         
     
           
@@ -294,6 +312,19 @@ def main():
     recap_table.loc['Gate bias', 'Winward Gate'] = f'{winward_bias:.0f}m'
     
     st.dataframe(recap_table)
+
+    if st.button("Update a virtual top gate"):
+        st.sidebar.header('Gate Parameters')
+        course_bearing = st.slider('Course Bearing (degrees)', 0, 360, 0)
+        gate_distance = st.slider('Distance to Gate (NM)', 0.0, 10.0, 1.0)
+        gate_separation = st.slider('Gate Separation (NM)', 0.0, 2.0, 0.2)
+    
+        if st.button('Calculate Gate Coordinates'):
+            wg1, wg2 = calculate_gate_coordinates(
+                initial_point, course_bearing, gate_distance, gate_separation)
+            st.write(f"Mark 1 Coordinates: {mark1}")
+            st.write(f"Mark 2 Coordinates: {mark2}")
+        
     
     folium_static(m)
 
