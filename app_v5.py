@@ -320,15 +320,10 @@ def main():
     
     if st.button('Load latest mark from database :'):
         latest_marks = fetch_latest_marks()
-        latest_marks = rc, pin, wg1, wg2
+        rc, pin, wg1, wg2 = latest_marks 
         if latest_marks:
             st.write("Latest Marks from Database:")
-            st.write(pin)
             
-        
-    
-    
-
 
     # Display map
     center = (np.array(rc) + np.array(wg1) + np.array(wg2) + np.array(pin)) / 4
