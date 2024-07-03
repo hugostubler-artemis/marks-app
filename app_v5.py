@@ -154,7 +154,7 @@ def main():
 
     # Dropdown menu for selecting input method
     input_method = st.sidebar.selectbox(
-        'Select Input Method', ('Manual coordinates', 'GPX coordinates'))
+        'Select Input Method', ('Manual coordinates', 'GPX coordinates','Load latest from database'))
 
     rc, pin, wg1, wg2 = [None, None], [None, None], [None, None], [None, None]
     waypoints = []
@@ -198,10 +198,18 @@ def main():
         pin = extract_waypoint(pin_file)
         wg1 = extract_waypoint(wg1_file)
         wg2 = extract_waypoint(wg2_file)
-
+    
     if None in rc or None in pin or None in wg1 or None in wg2:
         st.warning('Please provide coordinates for all marks.')
         return
+        
+    elif input_method == 'Load latest from database':
+        if st.sidebar.button('Load latest mark from database :'):
+        latest_marks = fetch_latest_marks()
+        rc, pin, wg1, wg2 = latest_marks["RC"],  latest_marks["PIN"], latest_marks["WGR"], latest_marks["WGL"]
+        if latest_marks:
+            st.success("Loaded latest marks done ✅")
+            #st.write(latest_marks)
 
     # Calculate race course axis
     course_heading = calculate_heading(rc, wg1)
@@ -290,13 +298,7 @@ def main():
         st.write(f"Mark 1 Coordinates: {wg1}")
         st.write(f"Mark 2 Coordinates: {wg2}")
     
-    if st.button('Load latest mark from database :'):
-        latest_marks = fetch_latest_marks()
-        rc, pin, wg1, wg2 = latest_marks["RC"],  latest_marks["PIN"], latest_marks["WGR"], latest_marks["WGL"]
-        if latest_marks:
-            st.write("Latest Marks from Database:")
-            #st.write(latest_marks)
-
+    
     # Display map
     center = (np.array(rc) + np.array(wg1) + np.array(wg2) + np.array(pin)) / 4
 
