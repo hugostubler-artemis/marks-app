@@ -315,11 +315,11 @@ def main():
 
     if st.button("Update a virtual top gate"):
         st.sidebar.header('Gate Parameters')
-        course_bearing = st.slider('Course Bearing (degrees)', 0, 360, 0)
-        gate_distance = st.slider('Distance to Gate (NM)', 0.0, 10.0, 1.0)
-        gate_separation = st.slider('Gate Separation (NM)', 0.0, 2.0, 0.2)
+        course_bearing = st.sidebar.slider('Course Bearing (degrees)', 0, 360, 0)
+        gate_distance = st.sidebar.slider('Distance to Gate (NM)', 0.0, 10.0, 1.0)
+        gate_separation = st.sidebar.slider('Gate Separation (NM)', 0.0, 2.0, 0.2)
     
-        if st.button('Calculate Gate Coordinates'):
+        if st.sidebar.button('Calculate Gate Coordinates'):
             wg1, wg2 = calculate_gate_coordinates(
                 initial_point, course_bearing, gate_distance, gate_separation)
             st.write(f"Mark 1 Coordinates: {mark1}")
