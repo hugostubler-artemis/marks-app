@@ -172,16 +172,16 @@ def main():
         st.sidebar.header('Input Coordinates')
 
         # Input coordinates for the marks
-        rc_coord = st.sidebar.text_input('RC coordinates', '41.426929,2.254188')
-        pin_coord = st.sidebar.text_input('Pin coordinates', '41.428403,2.2526792')
-        wg1_coord = st.sidebar.text_input('WG1 coordinates', '41.436155,2.2860348')
-        wg2_coord = st.sidebar.text_input('WG2 coordinates', '41.43448679,2.286550')
+        rc_coord = st.sidebar.text_input('RC coordinates', '(41.426929,2.25418')
+        pin_coord = st.sidebar.text_input('Pin coordinates', '(41.428403,2.2526792)')
+        wg1_coord = st.sidebar.text_input('WG1 coordinates', '(41.436155,2.2860348)')
+        wg2_coord = st.sidebar.text_input('WG2 coordinates', '(41.43448679,2.286550)')
     
         # Parse coordinates from strings to floats
-        rc = [float(coord) for coord in rc_coord.split(',')]
-        pin = [float(coord) for coord in pin_coord.split(',')]
-        wg1 = [float(coord) for coord in wg1_coord.split(',')]
-        wg2 = [float(coord) for coord in wg2_coord.split(',')]
+        rc = [float(coord) for coord in rc_coord.split(',')[1,-1]]
+        pin = [float(coord) for coord in pin_coord.split(',')[1,-1]]
+        wg1 = [float(coord) for coord in wg1_coord.split(',')[1,-1]]
+        wg2 = [float(coord) for coord in wg2_coord.split(',')[1,-1]]
         
     
           
@@ -214,8 +214,8 @@ def main():
     # Calculate race course axis
     course_heading = calculate_heading(rc, wg1)
     perpendicular_heading = (course_heading + 90) % 360
-    perpendicular_heading_lee_gate = (calculate_heading(rc, pin) + 90) % 360
-    perpendicular_heading_win_gate = (calculate_heading(wg1, wg2) + 90) % 360
+    perpendicular_heading_lee_gate = (calculate_heading(pin, rc) + 90) % 360
+    perpendicular_heading_win_gate = (calculate_heading(wg2, wg1) + 90) % 360
     distance_start = haversine(rc, pin)
     distance_uwgate = haversine(wg1, wg2)
     start_bias = distance_start * \
@@ -312,21 +312,22 @@ def main():
     
     st.dataframe(recap_table)
 
-    if st.button("Update a virtual top gate"):
-        st.sidebar.header('Gate Parameters')
-        course_bearing = st.sidebar.slider('Course Bearing (degrees)', 0, 360, 0)
-        gate_distance = st.sidebar.slider('Distance to Gate (NM)', 0.0, 10.0, 1.0)
-        gate_separation = st.sidebar.slider('Gate Separation (NM)', 0.0, 2.0, 0.2)
+    st.write("If you want to update a virtual top gate"):
+    st.header('Gate Parameters')
+    course_bearing = st.slider('Course Bearing (degrees)', 0, 360, 0)
+    gate_distance = st.slider('Distance to Gate (NM)', 0.0, 3.0, 1.12)
+    gate_separation = st.slider('Gate Separation (NM)', 0.0, 1.0, 0.25)
     
-        if st.sidebar.button('Calculate Gate Coordinates'):
-            wg1, wg2 = calculate_gate_coordinates(
-                initial_point, course_bearing, gate_distance, gate_separation)
-            st.write(f"Mark 1 Coordinates: {mark1}")
-            st.write(f"Mark 2 Coordinates: {mark2}")
+    if st.sidebar.button('Calculate Gate Coordinates'):
+        wg1, wg2 = calculate_gate_coordinates(
+            initial_point, course_bearing, gate_distance, gate_separation)
+        st.write(f"Mark 1 Coordinates: {wg1}")
+        st.write(f"Mark 2 Coordinates: {wg2}")
         
     
     folium_static(m)
 
+    
     # Create JSON structure
     json_data = {
         "Boundary": boundary_coords,
@@ -373,6 +374,7 @@ def main():
     }
 
     # Download JSON button
+    
     st.download_button(
         label="Download JSON",
         data=json.dumps(json_data, indent=4),
