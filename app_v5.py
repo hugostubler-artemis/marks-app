@@ -204,9 +204,8 @@ def main():
         return
         
     elif input_method == 'Load latest from database':
-        if st.sidebar.button('Load latest mark from database :'):
-            latest_marks = fetch_latest_marks()
-            rc, pin, wg1, wg2 = latest_marks["RC"],  latest_marks["PIN"], latest_marks["WGR"], latest_marks["WGL"]
+        latest_marks = fetch_latest_marks()
+        rc, pin, wg1, wg2 = latest_marks["RC"],  latest_marks["PIN"], latest_marks["WGR"], latest_marks["WGL"]
         if latest_marks:
             st.success("Loaded latest marks done ✅")
             #st.write(latest_marks)
@@ -258,9 +257,7 @@ def main():
         #
         return [boundary_bottom_left, boundary_bottom_right, boundary_top_right, boundary_top_left, boundary_bottom_left]
 
-    marks = [rc, pin, wg1, wg2]
-    boundary_coords = calculate_boundaries(
-        marks, boundary_width, boundary_length)
+    
 
     
 
@@ -298,7 +295,9 @@ def main():
         st.write(f"Mark 1 Coordinates: {wg1}")
         st.write(f"Mark 2 Coordinates: {wg2}")
     
-    
+    marks = [rc, pin, wg1, wg2]
+    boundary_coords = calculate_boundaries(
+        marks, boundary_width, boundary_length)
     # Display map
     center = (np.array(rc) + np.array(wg1) + np.array(wg2) + np.array(pin)) / 4
 
