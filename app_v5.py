@@ -312,7 +312,7 @@ def main():
     
     st.dataframe(recap_table)
 
-    st.write("If you want to update a virtual top gate"):
+    st.write("If you want to update a virtual top gate")
     st.header('Gate Parameters')
     course_bearing = st.slider('Course Bearing (degrees)', 0, 360, 0)
     gate_distance = st.slider('Distance to Gate (NM)', 0.0, 3.0, 1.12)
