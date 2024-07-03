@@ -295,7 +295,7 @@ def main():
         rc, pin, wg1, wg2 = latest_marks 
         if latest_marks:
             st.write("Latest Marks from Database:")
-            
+            st.write(rc)
 
     # Display map
     center = (np.array(rc) + np.array(wg1) + np.array(wg2) + np.array(pin)) / 4
