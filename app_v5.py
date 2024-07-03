@@ -198,11 +198,7 @@ def main():
         pin = extract_waypoint(pin_file)
         wg1 = extract_waypoint(wg1_file)
         wg2 = extract_waypoint(wg2_file)
-    
-    if None in rc or None in pin or None in wg1 or None in wg2:
-        st.warning('Please provide coordinates for all marks.')
-        return
-        
+
     elif input_method == 'Load latest from database':
         latest_marks = fetch_latest_marks()
         rc, pin, wg1, wg2 = latest_marks["RC"],  latest_marks["PIN"], latest_marks["WGR"], latest_marks["WGL"]
@@ -210,6 +206,11 @@ def main():
             st.success("Loaded latest marks done ✅")
             #st.write(latest_marks)
 
+    if None in rc or None in pin or None in wg1 or None in wg2:
+        st.warning('Please provide coordinates for all marks.')
+        return
+        
+    
     # Calculate race course axis
     course_heading = calculate_heading(rc, wg1)
     perpendicular_heading = (course_heading + 90) % 360
