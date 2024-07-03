@@ -214,7 +214,7 @@ def main():
     # Calculate race course axis
     course_heading = calculate_heading(rc, wg1)
     perpendicular_heading = (course_heading + 90) % 360
-    perpendicular_heading_lee_gate = (calculate_heading(pin, rc) + 90) % 360
+    perpendicular_heading_lee_gate = 180-(calculate_heading(pin, rc) + 90) % 360
     perpendicular_heading_win_gate = (calculate_heading(wg2, wg1) + 90) % 360
     distance_start = haversine(rc, pin)
     distance_uwgate = haversine(wg1, wg2)
@@ -337,10 +337,10 @@ def main():
         "OtherAreas": [],
         "CreationTimeDate": time.time(),
         "CreationTime": time.time(),
-        "RaceStartTime": time.time() + 18000,
+        "RaceStartTime": time.time() + 330,
         "EntryBeforeStartBlue": 130.0,
         "EntryBeforeStartYellow": 120.0,
-        "RaceType": "Match",
+        "RaceType": "Fleet",
         "Participants": ["RaceBoat", "Ghost"],
         "OtherAssets": [],
         "CourseSequence": [
