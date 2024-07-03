@@ -85,8 +85,7 @@ def haversine(coord1, coord2):
     return d
 
 
-def insert_into_database(coordinates):
-    # conn = 0
+def fetch_latest_marks():
     try:
         conn = mysql.connector.connect(
             host=MYSQL_HOST,
@@ -96,30 +95,24 @@ def insert_into_database(coordinates):
             database=MYSQL_SCHEMA
         )
         cursor = conn.cursor()
-        query = "INSERT INTO `coursemarks` (`type`, `latitude`, `longitude`, `dropTimeUtc`) VALUES (%s, %s, %s, %s)"
-        current_time = time.strftime('%Y-%m-%d %H:%M:%S')
-
-        # Insert mark coordinates
-        mark_types = ['RC', 'PIN', 'WGR', 'WGL']
-        for i, mark in enumerate(coordinates['marks']):
-            cursor.execute(
-                query, (mark_types[i], mark[0], mark[1], current_time))
-
-        # Insert boundary coordinates
-        boundary_types = ['B1', 'B2', 'B3', 'B4']
-        for i, boundary in enumerate(coordinates['boundary']):
-            cursor.execute(
-                query, (boundary_types[i], boundary[0], boundary[1], current_time))
-
-        conn.commit()
-        st.success('Coordinates uploaded to the database successfully!')
+        query = """
+        SELECT `type`, `latitude`, `longitude`
+        FROM `coursemarks`
+        WHERE `type` IN ('RC', 'PIN', 'WGR', 'WGL')
+        ORDER BY `dropTimeUtc` DESC
+        LIMIT 4
+        """
+        cursor.execute(query)
+        result = cursor.fetchall()
+        marks = {row[0]: [row[1], row[2]] for row in result}
+        return marks
     except mysql.connector.Error as err:
         st.error(f"Error: {err}")
+        return None
     finally:
         if conn.is_connected():
             cursor.close()
             conn.close()
-
 
 def add_marker(map_obj, location, tooltip):
     folium.Marker(location=location, tooltip=tooltip).add_to(map_obj)
@@ -347,15 +340,16 @@ def main():
 
     if st.button('Load latest mark from database :'):
         latest_marks = fetch_latest_marks()
-        latest_marks = rc, pin, wg1, wg2, b1, b2, b3, b4
+        latest_marks = rc, pin, wg1, wg2
         if latest_marks:
             st.write("Latest Marks from Database:")
             st.write(latest_marks)
+            
         
     
     if st.button('Calculate Gate Coordinates'):
         wg1, wg2 = calculate_gate_coordinates(
-            initial_point, course_bearing, gate_distance, gate_separation)
+            rc, course_bearing, gate_distance, gate_separation)
         st.write(f"Mark 1 Coordinates: {wg1}")
         st.write(f"Mark 2 Coordinates: {wg2}")
         
