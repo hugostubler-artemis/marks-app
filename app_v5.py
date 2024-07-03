@@ -180,6 +180,7 @@ def main():
         
 
         rc = [rc_coord[0], rc_coord[1]]
+        st.write(rc)
         pin = [pin_coord[0], pin_coord[1]]
         wg1 = [wg1_coord[0], wg1_coord[1]]
         wg2 = [wg2_coord[0], wg2_coord[1]]
