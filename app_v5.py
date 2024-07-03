@@ -292,7 +292,7 @@ def main():
     
     if st.button('Load latest mark from database :'):
         latest_marks = fetch_latest_marks()
-        rc, pin, wg1, wg2 = latest_marks 
+        rc, pin, wg1, wg2 = latest_marks["RC"],  latest_marks["PIN"], latest_marks["WGR"], latest_marks["WGL"]
         if latest_marks:
             st.write("Latest Marks from Database:")
             st.write(latest_marks)
