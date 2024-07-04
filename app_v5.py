@@ -82,7 +82,7 @@ def insert_into_database(coordinates):
         current_time = time.strftime('%Y-%m-%d %H:%M:%S')
 
         # Insert mark coordinates
-        mark_types = ['RC', 'Pin', 'WGL', 'WGR']
+        mark_types = ['RC', 'PIN', 'WGL', 'WGR']
         for i, mark in enumerate(coordinates['marks']):
             cursor.execute(
                 query, (mark_types[i], mark[0], mark[1], current_time))
