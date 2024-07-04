@@ -256,7 +256,7 @@ def main():
     course_heading = calculate_heading(rc, wg1)
     perpendicular_heading = (course_heading + 90) % 360
     perpendicular_heading_lee_gate = (calculate_heading(pin, rc) + 90) % 360 - 180
-    perpendicular_heading_win_gate = (calculate_heading(wg2, wg1) + 90) % 360
+    perpendicular_heading_win_gate = (calculate_heading(wg2, wg1) + 90) % 360 - 180
     distance_start = haversine(rc, pin)
     distance_uwgate = haversine(wg1, wg2)
     start_bias = distance_start * \
