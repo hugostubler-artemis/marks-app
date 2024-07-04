@@ -364,6 +364,15 @@ def main():
     folium_static(m)
 
     
+    
+    # Download JSON button
+   
+    local_time_str = st.text_input('Local Race Start Time (UTC+2)', '15:45')
+
+    # Convert the local time to UTC time
+    utc_offset = 2
+    utc_time = local_to_utc(local_time_str, utc_offset)
+
     # Create JSON structure
     json_data = {
         "Boundary": boundary_coords,
@@ -371,7 +380,7 @@ def main():
         "OtherAreas": [],
         "CreationTimeDate": time.time(),
         "CreationTime": time.time(),
-        "RaceStartTime": time.time() + 330,
+        "RaceStartTime": utc_time,
         "EntryBeforeStartBlue": 130.0,
         "EntryBeforeStartYellow": 120.0,
         "RaceType": "Fleet",
@@ -409,8 +418,9 @@ def main():
         }
     }
 
-    # Download JSON button
-    
+
+    # Display the UTC time
+    st.write(f"UTC time: {utc_time}")
     st.download_button(
         label="Download JSON",
         data=json.dumps(json_data, indent=4),
