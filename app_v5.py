@@ -11,6 +11,7 @@ import gpxpy
 import mysql.connector
 from streamlit_js_eval import get_geolocation
 from streamlit_geolocation import streamlit_geolocation
+from datetime import datetime, timedelta, timezone
 
 MYSQL_HOST = st.secrets["MYSQL_HOST"]
 MYSQL_PORT = st.secrets["MYSQL_PORT"]
@@ -22,7 +23,13 @@ def long_computation():
     import time
     time.sleep(3)
 
-
+def local_to_utc(local_time_str, local_timezone_offset):
+    today = datetime.now().date()
+    local_time = datetime.strptime(f"{today} {local_time_str}", "%Y-%m-%d %H:%M")
+    local_time = local_time.replace(tzinfo=timezone(timedelta(hours=local_timezone_offset)))
+    utc_time = local_time.astimezone(timezone.utc)
+    return utc_time.timestamp()
+    
 def fetch_latest_marks():
     try:
         conn = mysql.connector.connect(
