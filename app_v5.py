@@ -67,6 +67,40 @@ def calculate_gate_coordinates(start_point, bearing, distance_nm, separation_nm)
 
     return mark1, mark2
 
+def insert_into_database(coordinates):
+    # conn = 0
+    try:
+        conn = mysql.connector.connect(
+            host=MYSQL_HOST,
+            port=MYSQL_PORT,
+            user=MYSQL_USR,
+            password=MYSQL_PWD,
+            database=MYSQL_SCHEMA
+        )
+        cursor = conn.cursor()
+        query = "INSERT INTO `coursemarks` (`type`, `latitude`, `longitude`, `dropTimeUtc`) VALUES (%s, %s, %s, %s)"
+        current_time = time.strftime('%Y-%m-%d %H:%M:%S')
+
+        # Insert mark coordinates
+        mark_types = ['RC', 'Pin', 'WGL', 'WGR']
+        for i, mark in enumerate(coordinates['marks']):
+            cursor.execute(
+                query, (mark_types[i], mark[0], mark[1], current_time))
+
+        # Insert boundary coordinates
+        boundary_types = ['B1', 'B2', 'B3', 'B4']
+        for i, boundary in enumerate(coordinates['boundary']):
+            cursor.execute(
+                query, (boundary_types[i], boundary[0], boundary[1], current_time))
+
+        conn.commit()
+        st.success('Coordinates uploaded to the database successfully!')
+    except mysql.connector.Error as err:
+        st.error(f"Error: {err}")
+    finally:
+        if conn.is_connected():
+            cursor.close()
+            conn.close()
 
 
 def haversine(coord1, coord2):
