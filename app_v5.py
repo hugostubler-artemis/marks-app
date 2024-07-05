@@ -337,7 +337,7 @@ def main():
     # Display map
 
     st.write(f'Course Axis Heading: {course_heading:.0f}°')
-    st.write(f'Course Distance : {course_distance:.0f}nM')
+    st.write(f'Course Distance : {course_distance:.1f}nM')
     #st.write(f'Leeward gate square at: {perpendicular_heading_lee_gate:.0f}°')
     #st.write(f'Leeward gate distance: {distance_start:.0f}m')
     #st.write(f'Leeward gate bias: {start_bias:.0f}m')
