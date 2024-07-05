@@ -181,34 +181,7 @@ def calculate_heading(coord1, coord2):
     heading = (degrees(atan2(y, x)) + 360) % 360
     return heading
 
-def calculate_boundaries(marks, boundary_width, boundary_length):
-        rc, pin, wg1, wg2 = marks
 
-        # Calculate the center points of the sides
-        center_bottom = [(rc[0] + pin[0]) / 2, (rc[1] + pin[1]) / 2]
-        center_top = [(wg1[0] + wg2[0]) / 2, (wg1[1] + wg2[1]) / 2]
-
-        # Move these center points to create the boundary
-        boundary_bottom_left = move_point(
-            center_bottom, perpendicular_heading + 180, boundary_width / 2)
-        boundary_bottom_right = move_point(
-            center_bottom, perpendicular_heading, boundary_width / 2)
-        boundary_top_left = move_point(
-            center_top, perpendicular_heading + 180, boundary_width / 2)
-        boundary_top_right = move_point(
-            center_top, perpendicular_heading, boundary_width / 2)
-
-        boundary_bottom_left = move_point(
-            boundary_bottom_left, course_heading + 180, boundary_length / 2)
-        boundary_bottom_right = move_point(
-            boundary_bottom_right, course_heading + 180, boundary_length / 2)
-        boundary_top_left = move_point(
-            boundary_top_left, course_heading, boundary_length / 2)
-        boundary_top_right = move_point(
-            boundary_top_right, course_heading, boundary_length / 2)
-
-        #
-        return [boundary_bottom_left, boundary_bottom_right, boundary_top_right, boundary_top_left, boundary_bottom_left]
 
 
 def main():
@@ -284,18 +257,7 @@ def main():
         return
         
     
-    # Calculate race course axis
-    course_heading = calculate_heading(rc, wg1)
-    perpendicular_heading = (course_heading + 90) % 360
-    perpendicular_heading_lee_gate = (calculate_heading(pin, rc) + 90) % 360 - 180
-    perpendicular_heading_win_gate = (calculate_heading(wg2, wg1) + 90) % 360 - 180
-    distance_start = haversine(rc, pin)
-    distance_uwgate = haversine(wg1, wg2)
-    start_bias = distance_start * \
-        np.tan((perpendicular_heading_lee_gate-twd)*np.pi/180)
-    winward_bias = distance_start * \
-        np.tan((perpendicular_heading_win_gate-twd)*np.pi/180)
-
+    
 
     # Slider for boundary width and length
     boundary_width = st.sidebar.slider('Boundary Width (NM)', 0.0, 2.0, 0.6)
@@ -303,8 +265,6 @@ def main():
 
     # Calculate boundary coordinates around the marks
     ## ICI
-
-    
 
     
 
@@ -347,6 +307,50 @@ def main():
         st.write(f"Mark 2 Coordinates: {wg2}")
     
     marks = [rc, pin, wg1, wg2]
+    # Calculate race course axis
+    course_heading = calculate_heading(rc, wg1)
+    perpendicular_heading = (course_heading + 90) % 360
+    perpendicular_heading_lee_gate = (calculate_heading(pin, rc) + 90) % 360 - 180
+    perpendicular_heading_win_gate = (calculate_heading(wg2, wg1) + 90) % 360 - 180
+    distance_start = haversine(rc, pin)
+    distance_uwgate = haversine(wg1, wg2)
+    start_bias = distance_start * \
+        np.tan((perpendicular_heading_lee_gate-twd)*np.pi/180)
+    winward_bias = distance_start * \
+        np.tan((perpendicular_heading_win_gate-twd)*np.pi/180)
+
+    def calculate_boundaries(marks, boundary_width, boundary_length):
+        rc, pin, wg1, wg2 = marks
+
+        # Calculate the center points of the sides
+        center_bottom = [(rc[0] + pin[0]) / 2, (rc[1] + pin[1]) / 2]
+        center_top = [(wg1[0] + wg2[0]) / 2, (wg1[1] + wg2[1]) / 2]
+
+        # Move these center points to create the boundary
+        boundary_bottom_left = move_point(
+            center_bottom, perpendicular_heading + 180, boundary_width / 2)
+        boundary_bottom_right = move_point(
+            center_bottom, perpendicular_heading, boundary_width / 2)
+        boundary_top_left = move_point(
+            center_top, perpendicular_heading + 180, boundary_width / 2)
+        boundary_top_right = move_point(
+            center_top, perpendicular_heading, boundary_width / 2)
+
+        boundary_bottom_left = move_point(
+            boundary_bottom_left, course_heading + 180, boundary_length / 2)
+        boundary_bottom_right = move_point(
+            boundary_bottom_right, course_heading + 180, boundary_length / 2)
+        boundary_top_left = move_point(
+            boundary_top_left, course_heading, boundary_length / 2)
+        boundary_top_right = move_point(
+            boundary_top_right, course_heading, boundary_length / 2)
+
+        #
+        return [boundary_bottom_left, boundary_bottom_right, boundary_top_right, boundary_top_left, boundary_bottom_left]
+    
+
+    
+    
     boundary_coords = calculate_boundaries(
         marks, boundary_width, boundary_length)
     # Display map
