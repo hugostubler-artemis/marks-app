@@ -348,7 +348,8 @@ def main():
     gate_separation = st.sidebar.slider('Gate Separation (NM)', 0.0, .60, 0.12)
     if st.sidebar.checkbox('New pin'):
         start_separation = st.sidebar.slider('Gate Separation (NM)', 0.0, .50, 0.12)
-        pin = move_point(rc, course_bearing, start_separation)
+        opposite_perpendicular_bearing = (course_bearing - 90) % 360
+        pin = move_point(rc, opposite_perpendicular_bearing, start_separation)
     
     if st.sidebar.button('Calculate Gate Coordinates'):
         wg1, wg2 = calculate_gate_coordinates(
