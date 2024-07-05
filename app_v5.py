@@ -289,6 +289,7 @@ def main():
     marks = [rc, pin, wg1, wg2]
     # Calculate race course axis
     course_heading = calculate_heading(rc, wg1)
+    course_distance = haversine(rc, wg1)/1852
     perpendicular_heading = (course_heading + 90) % 360
     perpendicular_heading_lee_gate = ((calculate_heading(pin, rc) + 90) % 360 - 180 + 360)%360
     perpendicular_heading_win_gate = ((calculate_heading(wg1, wg2) + 90) % 360 - 180 + 360)%360
@@ -336,6 +337,7 @@ def main():
     # Display map
 
     st.write(f'Course Axis Heading: {course_heading:.0f}°')
+    st.write(f'Course Distance : {course_distance:.0f}nM')
     #st.write(f'Leeward gate square at: {perpendicular_heading_lee_gate:.0f}°')
     #st.write(f'Leeward gate distance: {distance_start:.0f}m')
     #st.write(f'Leeward gate bias: {start_bias:.0f}m')
