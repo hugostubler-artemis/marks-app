@@ -448,7 +448,7 @@ def main():
     st.download_button(
         label="Download JSON",
         data=json.dumps(json_data, indent=4),
-        file_name=f'race_course_data_{datetime.datetime.now()}.json',
+        file_name=f'race_course_data_{datetime.now()}.json',
         mime='application/json'
     )
 
