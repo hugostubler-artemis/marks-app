@@ -75,20 +75,7 @@ def calculate_gate_coordinates(start_point, bearing, distance_nm, separation_nm)
     return mark1, mark2
 
 
-def calculate_pin_coordinates(start_point, bearing, distance_nm, separation_nm):
-    # Calculate the center of the gate
-    gate_center = move_point(start_point, bearing, distance_nm)
 
-    # Calculate the bearings for the gate marks (perpendicular to the course bearing)
-    perpendicular_bearing = (bearing + 90) % 360
-    opposite_perpendicular_bearing = (bearing - 90) % 360
-
-    # Calculate the positions of the two gate marks
-    mark1 = move_point(gate_center, perpendicular_bearing, separation_nm / 2)
-    mark2 = move_point(
-        gate_center, opposite_perpendicular_bearing, separation_nm / 2)
-
-    return mark1, mark2
     
 def insert_into_database(coordinates):
     # conn = 0
@@ -194,6 +181,35 @@ def calculate_heading(coord1, coord2):
     heading = (degrees(atan2(y, x)) + 360) % 360
     return heading
 
+def calculate_boundaries(marks, boundary_width, boundary_length):
+        rc, pin, wg1, wg2 = marks
+
+        # Calculate the center points of the sides
+        center_bottom = [(rc[0] + pin[0]) / 2, (rc[1] + pin[1]) / 2]
+        center_top = [(wg1[0] + wg2[0]) / 2, (wg1[1] + wg2[1]) / 2]
+
+        # Move these center points to create the boundary
+        boundary_bottom_left = move_point(
+            center_bottom, perpendicular_heading + 180, boundary_width / 2)
+        boundary_bottom_right = move_point(
+            center_bottom, perpendicular_heading, boundary_width / 2)
+        boundary_top_left = move_point(
+            center_top, perpendicular_heading + 180, boundary_width / 2)
+        boundary_top_right = move_point(
+            center_top, perpendicular_heading, boundary_width / 2)
+
+        boundary_bottom_left = move_point(
+            boundary_bottom_left, course_heading + 180, boundary_length / 2)
+        boundary_bottom_right = move_point(
+            boundary_bottom_right, course_heading + 180, boundary_length / 2)
+        boundary_top_left = move_point(
+            boundary_top_left, course_heading, boundary_length / 2)
+        boundary_top_right = move_point(
+            boundary_top_right, course_heading, boundary_length / 2)
+
+        #
+        return [boundary_bottom_left, boundary_bottom_right, boundary_top_right, boundary_top_left, boundary_bottom_left]
+
 
 def main():
     st.title('Sailing Race Course Setup')
@@ -286,34 +302,7 @@ def main():
     boundary_length = st.sidebar.slider('Boundary Length (NM)', 0.0, 2.0, 1.1)
 
     # Calculate boundary coordinates around the marks
-    def calculate_boundaries(marks, boundary_width, boundary_length):
-        rc, pin, wg1, wg2 = marks
-
-        # Calculate the center points of the sides
-        center_bottom = [(rc[0] + pin[0]) / 2, (rc[1] + pin[1]) / 2]
-        center_top = [(wg1[0] + wg2[0]) / 2, (wg1[1] + wg2[1]) / 2]
-
-        # Move these center points to create the boundary
-        boundary_bottom_left = move_point(
-            center_bottom, perpendicular_heading + 180, boundary_width / 2)
-        boundary_bottom_right = move_point(
-            center_bottom, perpendicular_heading, boundary_width / 2)
-        boundary_top_left = move_point(
-            center_top, perpendicular_heading + 180, boundary_width / 2)
-        boundary_top_right = move_point(
-            center_top, perpendicular_heading, boundary_width / 2)
-
-        boundary_bottom_left = move_point(
-            boundary_bottom_left, course_heading + 180, boundary_length / 2)
-        boundary_bottom_right = move_point(
-            boundary_bottom_right, course_heading + 180, boundary_length / 2)
-        boundary_top_left = move_point(
-            boundary_top_left, course_heading, boundary_length / 2)
-        boundary_top_right = move_point(
-            boundary_top_right, course_heading, boundary_length / 2)
-
-        #
-        return [boundary_bottom_left, boundary_bottom_right, boundary_top_right, boundary_top_left, boundary_bottom_left]
+    ## ICI
 
     
 
