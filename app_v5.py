@@ -74,6 +74,22 @@ def calculate_gate_coordinates(start_point, bearing, distance_nm, separation_nm)
 
     return mark1, mark2
 
+
+def calculate_pin_coordinates(start_point, bearing, distance_nm, separation_nm):
+    # Calculate the center of the gate
+    gate_center = move_point(start_point, bearing, distance_nm)
+
+    # Calculate the bearings for the gate marks (perpendicular to the course bearing)
+    perpendicular_bearing = (bearing + 90) % 360
+    opposite_perpendicular_bearing = (bearing - 90) % 360
+
+    # Calculate the positions of the two gate marks
+    mark1 = move_point(gate_center, perpendicular_bearing, separation_nm / 2)
+    mark2 = move_point(
+        gate_center, opposite_perpendicular_bearing, separation_nm / 2)
+
+    return mark1, mark2
+    
 def insert_into_database(coordinates):
     # conn = 0
     try:
@@ -328,8 +344,11 @@ def main():
    
     st.sidebar.header('If you want to update a virtual top gate')
     course_bearing = st.sidebar.slider('Course Bearing (degrees)', 0, 360, 0)
-    gate_distance = st.sidebar.slider('Distance to Gate (NM)', 0.0, 3.0, 1.12)
-    gate_separation = st.sidebar.slider('Gate Separation (NM)', 0.0, 1.0, 0.25)
+    gate_distance = st.sidebar.slider('Distance to Gate (NM)', 0.0, 3.0, 1.20)
+    gate_separation = st.sidebar.slider('Gate Separation (NM)', 0.0, .60, 0.12)
+    if st.sidebar.checkbox('New pin'):
+        start_separation = st.sidebar.slider('Gate Separation (NM)', 0.0, .50, 0.12)
+        pin = move_point(rc, course_bearing, start_separation)
     
     if st.sidebar.button('Calculate Gate Coordinates'):
         wg1, wg2 = calculate_gate_coordinates(
