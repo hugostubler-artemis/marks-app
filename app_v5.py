@@ -269,27 +269,7 @@ def main():
     
 
     st.subheader('Race Course Details')
-    st.write(f'Course Axis Heading: {course_heading:.0f}°')
-    #st.write(f'Leeward gate square at: {perpendicular_heading_lee_gate:.0f}°')
-    #st.write(f'Leeward gate distance: {distance_start:.0f}m')
-    #st.write(f'Leeward gate bias: {start_bias:.0f}m')
-
-    #st.write(f'Windward gate square at: {perpendicular_heading_win_gate:.0f}°')
-
-    #st.write(f'Windward gate distance: {distance_uwgate:.0f}m')
-    #st.write(f'Windward gate bias: {winward_bias:.0f}m')
     
-    recap_table = pd.DataFrame(columns=['Leeward Gate','Winward Gate'], index=['Gate square at', 'Gate distance', 'Gate bias'])
-    recap_table.loc['Gate square at', 'Leeward Gate'] = f'{perpendicular_heading_lee_gate:.0f}°'
-    recap_table.loc['Gate distance', 'Leeward Gate'] = f'{distance_start:.0f}m'
-    recap_table.loc['Gate bias', 'Leeward Gate'] = f'{start_bias:.0f}m'
-
-    recap_table.loc['Gate square at', 'Winward Gate'] = f'{perpendicular_heading_win_gate:.0f}°'
-    recap_table.loc['Gate distance', 'Winward Gate'] = f'{distance_uwgate:.0f}m'
-    recap_table.loc['Gate bias', 'Winward Gate'] = f'{winward_bias:.0f}m'
-    
-    st.dataframe(recap_table)
-
    
     st.sidebar.header('If you want to update a virtual top gate')
     course_bearing = st.sidebar.slider('Course Bearing (degrees)', 0, 360, 0)
@@ -354,6 +334,28 @@ def main():
     boundary_coords = calculate_boundaries(
         marks, boundary_width, boundary_length)
     # Display map
+
+    st.write(f'Course Axis Heading: {course_heading:.0f}°')
+    #st.write(f'Leeward gate square at: {perpendicular_heading_lee_gate:.0f}°')
+    #st.write(f'Leeward gate distance: {distance_start:.0f}m')
+    #st.write(f'Leeward gate bias: {start_bias:.0f}m')
+
+    #st.write(f'Windward gate square at: {perpendicular_heading_win_gate:.0f}°')
+
+    #st.write(f'Windward gate distance: {distance_uwgate:.0f}m')
+    #st.write(f'Windward gate bias: {winward_bias:.0f}m')
+    
+    recap_table = pd.DataFrame(columns=['Leeward Gate','Winward Gate'], index=['Gate square at', 'Gate distance', 'Gate bias'])
+    recap_table.loc['Gate square at', 'Leeward Gate'] = f'{perpendicular_heading_lee_gate:.0f}°'
+    recap_table.loc['Gate distance', 'Leeward Gate'] = f'{distance_start:.0f}m'
+    recap_table.loc['Gate bias', 'Leeward Gate'] = f'{start_bias:.0f}m'
+
+    recap_table.loc['Gate square at', 'Winward Gate'] = f'{perpendicular_heading_win_gate:.0f}°'
+    recap_table.loc['Gate distance', 'Winward Gate'] = f'{distance_uwgate:.0f}m'
+    recap_table.loc['Gate bias', 'Winward Gate'] = f'{winward_bias:.0f}m'
+    
+    st.dataframe(recap_table)
+
     center = (np.array(rc) + np.array(wg1) + np.array(wg2) + np.array(pin)) / 4
 
     m = folium.Map(location=center, zoom_start=14)
