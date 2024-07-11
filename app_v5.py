@@ -337,7 +337,7 @@ def main():
     if wg2 != str(st.session_state['wg2']):
         update_state('wg2', wg2)
 
-    st.write(st.session_state['rc'])
+    st.write(f"RC coord : ({st.session_state['rc'][0]},{st.session_state['rc'][1]})")
     st.write(st.session_state['pin'])
     st.write(st.session_state['wg1'])
     st.write(st.session_state['wg2'])
