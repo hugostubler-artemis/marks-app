@@ -291,13 +291,25 @@ def main():
         start_separation = st.sidebar.slider('Gate Separation (NM)', 0.0, .50, 0.12)
         opposite_perpendicular_bearing = (course_bearing - 90) % 360
         pin = move_point(rc, opposite_perpendicular_bearing, start_separation)
+        update_state('rc', rc)
+        update_state('pin', pin)
+        update_state('wg1', wg1)
+        update_state('wg2', wg2)
+        st.experimental_rerun()
     
+
     if st.sidebar.button('Calculate Gate Coordinates'):
         wg1, wg2 = calculate_gate_coordinates(
             rc, course_bearing, gate_distance, gate_separation)
         st.write(f"Mark 1 Coordinates: {wg1}")
         st.write(f"Mark 2 Coordinates: {wg2}")
+        update_state('rc', rc)
+        update_state('pin', pin)
+        update_state('wg1', wg1)
+        update_state('wg2', wg2)
+        st.experimental_rerun()
     
+
     
     
     # Update session state based on input changes
