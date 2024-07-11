@@ -244,7 +244,8 @@ def main():
             'Upload WG1 GPX file', type=['gpx'])
         wg2_file = st.sidebar.file_uploader(
             'Upload WG2 GPX file', type=['gpx'])
-
+        
+        
         def extract_waypoint(file):
             if file:
                 gpx = gpxpy.parse(file)
@@ -252,10 +253,23 @@ def main():
                 return [waypoint.latitude, waypoint.longitude]
             return [None, None]
 
-        rc = extract_waypoint(rc_file)
-        pin = extract_waypoint(pin_file)
-        wg1 = extract_waypoint(wg1_file)
-        wg2 = extract_waypoint(wg2_file)
+        #rc = extract_waypoint(rc_file)
+        #pin = extract_waypoint(pin_file)
+        #wg1 = extract_waypoint(wg1_file)
+        #wg2 = extract_waypoint(wg2_file)
+        if rc_file:
+            rc = parse_gpx(rc_file)
+            update_state('rc', rc)
+        if pin_file:
+            pin = parse_gpx(pin_file)
+            update_state('pin', pin)
+        if wg1_file:
+            wg1 = parse_gpx(wg1_file)
+            update_state('wg1', wg1)
+        if wg2_file:
+            wg2 = parse_gpx(wg2_file)
+            update_state('wg2', wg2)
+
 
     elif input_method == 'Load latest from database':
         latest_marks = fetch_latest_marks()
@@ -263,6 +277,11 @@ def main():
         if latest_marks:
             st.success("Loaded latest marks done ✅")
             #st.write(latest_marks)
+            # Set the coordinates from the session state
+            rc = st.session_state['rc']
+            pin = st.session_state['pin']
+            wg1 = st.session_state['wg1']
+            wg2 = st.session_state['wg2']
 
     if None in rc or None in pin or None in wg1 or None in wg2:
         st.warning('Please provide coordinates for all marks.')
@@ -291,20 +310,14 @@ def main():
         start_separation = st.sidebar.slider('Gate Separation (NM)', 0.0, .50, 0.12)
         opposite_perpendicular_bearing = (course_bearing - 90) % 360
         pin = move_point(rc, opposite_perpendicular_bearing, start_separation)
-        update_state('rc', rc)
         update_state('pin', pin)
-        update_state('wg1', wg1)
-        update_state('wg2', wg2)
-        st.experimental_rerun()
-    
-
+            
+       
     if st.sidebar.button('Calculate Gate Coordinates'):
         wg1, wg2 = calculate_gate_coordinates(
             rc, course_bearing, gate_distance, gate_separation)
         st.write(f"Mark 1 Coordinates: {wg1}")
         st.write(f"Mark 2 Coordinates: {wg2}")
-        update_state('rc', rc)
-        update_state('pin', pin)
         update_state('wg1', wg1)
         update_state('wg2', wg2)
         st.experimental_rerun()
@@ -327,8 +340,14 @@ def main():
     st.write(st.session_state['pin'])
     st.write(st.session_state['wg1'])
     st.write(st.session_state['wg2'])
+    
+    # Set the coordinates from the session state
+    rc = st.session_state['rc']
+    pin = st.session_state['pin']
+    wg1 = st.session_state['wg1']
+    wg2 = st.session_state['wg2']
 
-    marks = [st.session_state['rc'], st.session_state['pin'], st.session_state['wg1'], st.session_state['wg2']]
+    marks = [rc, pin, wg1, wg2]
 
     # Calculate race course axis
     course_heading = calculate_heading(st.session_state['rc'], st.session_state['wg1'])
@@ -420,10 +439,10 @@ def main():
                 """)
         ).add_to(m)
 
-    add_marker(m, st.session_state['rc'], 'RC')
-    add_marker(m, st.session_state['pin'], 'Pin')
-    add_marker(m, st.session_state['wg1'], 'WG1')
-    add_marker(m, st.session_state['wg2'], 'WG2')
+    add_marker(m, rc, 'RC')
+    add_marker(m, pin, 'Pin')
+    add_marker(m, wg1, 'WG1')
+    add_marker(m, wg2, 'WG2')
 
     folium.PolyLine(locations=boundary_coords, color='red',
                     dash_array='5, 10').add_to(m)
