@@ -317,8 +317,8 @@ def main():
     if st.sidebar.button('Calculate Gate Coordinates'):
         wg1, wg2 = calculate_gate_coordinates(
             rc, course_bearing, gate_distance, gate_separation)
-        st.write(f"Mark 1 Coordinates: {wg1}")
-        st.write(f"Mark 2 Coordinates: {wg2}")
+        #st.write(f"Mark 1 Coordinates: {wg1}")
+        #st.write(f"Mark 2 Coordinates: {wg2}")
         update_state('wg1', wg1)
         update_state('wg2', wg2)
         
@@ -338,9 +338,11 @@ def main():
         update_state('wg2', wg2)
 
     st.write(f"RC coord : ({st.session_state['rc'][0]},{st.session_state['rc'][1]})")
-    st.write(st.session_state['pin'])
-    st.write(st.session_state['wg1'])
-    st.write(st.session_state['wg2'])
+    st.write(f"Pin coord : ({st.session_state['pin'][0]},{st.session_state['pin'][1]})")
+    st.write(f"Wg1 coord : ({st.session_state['wg1'][0]},{st.session_state['wg1'][1]})")
+    st.write(f"Wg2 coord : ({st.session_state['wg2'][0]},{st.session_state['wg2'][1]})")
+    
+    
     
     # Set the coordinates from the session state
     rc = st.session_state['rc']
