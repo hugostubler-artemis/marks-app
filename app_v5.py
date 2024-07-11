@@ -461,7 +461,7 @@ def main():
                 "boundary": boundary_coords[:-1]
             }
             insert_into_database(coordinates)
-        st.stop()
+            st.stop()
     
 
 if __name__ == "__main__":
