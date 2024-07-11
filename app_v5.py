@@ -299,7 +299,9 @@ def main():
         st.write(f"Mark 2 Coordinates: {wg2}")
     
     marks = [rc, pin, wg1, wg2]
+    
     # Update session state based on input changes
+    
     if rc != str(st.session_state['rc']):
         update_state('rc', rc)
     if pin != str(st.session_state['pin']):
@@ -308,6 +310,11 @@ def main():
         update_state('wg1', wg1)
     if wg2 != str(st.session_state['wg2']):
         update_state('wg2', wg2)
+
+    st.write(st.session_state['rc'])
+    st.write(st.session_state['pin'])
+    st.write(st.session_state['wg1'])
+    st.write(st.session_state['wg2'])
 
     # Calculate race course axis
     course_heading = calculate_heading(rc, wg1)
