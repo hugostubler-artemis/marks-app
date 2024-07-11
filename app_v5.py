@@ -445,12 +445,14 @@ def main():
 
     # Display the UTC time
     st.write(f"UTC time: {utc_time}")
-    st.download_button(
+    if st.download_button(
         label="Download JSON",
         data=json.dumps(json_data, indent=4),
         file_name=f'race_course_data_{datetime.now()}.json',
         mime='application/json'
-    )
+    ):
+        st.stop()
+    
 
     if st.button("Upload to Database"):
         #if st.checkbox("Confirm ?"):
@@ -459,6 +461,7 @@ def main():
                 "boundary": boundary_coords[:-1]
             }
             insert_into_database(coordinates)
+        st.stop()
     
 
 if __name__ == "__main__":
