@@ -298,7 +298,7 @@ def main():
         st.write(f"Mark 1 Coordinates: {wg1}")
         st.write(f"Mark 2 Coordinates: {wg2}")
     
-    marks = [rc, pin, wg1, wg2]
+    marks = [st.session_state['rc'], st.session_state['pin'], st.session_state['wg1'], st.session_state['wg2']]
     
     # Update session state based on input changes
     
@@ -317,24 +317,24 @@ def main():
     st.write(st.session_state['wg2'])
 
     # Calculate race course axis
-    course_heading = calculate_heading(rc, wg1)
-    course_distance = haversine(rc, wg1)/1852
+    course_heading = calculate_heading(st.session_state['rc'], st.session_state['wg1'])
+    course_distance = haversine(st.session_state['rc'], st.session_state['wg1'])/1852
     perpendicular_heading = (course_heading + 90) % 360
-    perpendicular_heading_lee_gate = ((calculate_heading(pin, rc) + 90) % 360 - 180 + 360)%360
-    perpendicular_heading_win_gate = ((calculate_heading(wg1, wg2) + 90) % 360 - 180 + 360)%360
-    distance_start = haversine(rc, pin)
-    distance_uwgate = haversine(wg1, wg2)
+    perpendicular_heading_lee_gate = ((calculate_heading(st.session_state['pin'], st.session_state['rc']) + 90) % 360 - 180 + 360)%360
+    perpendicular_heading_win_gate = ((calculate_heading(st.session_state['wg1'], st.session_state['wg2']) + 90) % 360 - 180 + 360)%360
+    distance_start = haversine(st.session_state['pin'], st.session_state['rc'])
+    distance_uwgate = haversine(st.session_state['wg1'], st.session_state['wg2'])
     start_bias = distance_start * \
         np.tan((perpendicular_heading_lee_gate-twd)*np.pi/180)
     winward_bias = distance_start * \
         np.tan((perpendicular_heading_win_gate-twd)*np.pi/180)
 
     def calculate_boundaries(marks, boundary_width, boundary_length):
-        rc, pin, wg1, wg2 = marks
+        st.session_state['rc'], st.session_state['pin'], st.session_state['wg1'], st.session_state['wg2'] = marks
 
         # Calculate the center points of the sides
-        center_bottom = [(rc[0] + pin[0]) / 2, (rc[1] + pin[1]) / 2]
-        center_top = [(wg1[0] + wg2[0]) / 2, (wg1[1] + wg2[1]) / 2]
+        center_bottom = [(st.session_state['rc'][0] + st.session_state['pin'][0]) / 2, (st.session_state['rc'][1] + st.session_state['pin'][1]) / 2]
+        center_top = [(st.session_state['wg1'][0] + st.session_state['wg2'][0]) / 2, (st.session_state['wg1'][1] + st.session_state['wg2'][1]) / 2]
 
         # Move these center points to create the boundary
         boundary_bottom_left = move_point(
@@ -386,16 +386,16 @@ def main():
     recap_table.loc['Gate bias', 'Winward Gate'] = f'{winward_bias:.0f}m'
     
     st.dataframe(recap_table)
-
-    center = (np.array(rc) + np.array(wg1) + np.array(wg2) + np.array(pin)) / 4
+    
+    center = (np.array(st.session_state['rc']) + np.array(st.session_state['wg1']) + np.array(st.session_state['wg2']) + np.array(st.session_state['pin'])) / 4
 
     m = folium.Map(location=center, zoom_start=14)
     marks_data = pd.DataFrame(columns=['Latitude', 'Longitude', 'name'], index=[
                               'rc', 'pin', 'Wg1', 'Wg2'])
-    marks_data.loc['rc'] = [rc[0], rc[1], 'RC']
-    marks_data.loc['pin'] = [pin[0], pin[1], 'Pin']
-    marks_data.loc['Wg1'] = [wg1[0], wg1[1], 'WG1']
-    marks_data.loc['Wg2'] = [wg2[0], wg2[1], 'WG2']
+    marks_data.loc['rc'] = [st.session_state['rc'][0], st.session_state['rc'][1], 'RC']
+    marks_data.loc['pin'] = [st.session_state['pin'][0], st.session_state['pin'][1], 'Pin']
+    marks_data.loc['Wg1'] = [st.session_state['wg1'][0], st.session_state['wg1'][1], 'WG1']
+    marks_data.loc['Wg2'] = [st.session_state['wg2'][0], st.session_state['wg2'][1], 'WG2']
     for i in range(0, len(marks_data)):
         folium.Marker(
             location=[marks_data.iloc[i]['Latitude'],
@@ -406,10 +406,10 @@ def main():
                 """)
         ).add_to(m)
 
-    add_marker(m, rc, 'RC')
-    add_marker(m, pin, 'Pin')
-    add_marker(m, wg1, 'WG1')
-    add_marker(m, wg2, 'WG2')
+    add_marker(m, marks[0], 'RC')
+    add_marker(m, marks[1], 'Pin')
+    add_marker(m, marks[2], 'WG1')
+    add_marker(m, marks[3], 'WG2')
 
     folium.PolyLine(locations=boundary_coords, color='red',
                     dash_array='5, 10').add_to(m)
