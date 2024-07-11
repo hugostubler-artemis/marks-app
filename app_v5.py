@@ -320,7 +320,7 @@ def main():
         st.write(f"Mark 2 Coordinates: {wg2}")
         update_state('wg1', wg1)
         update_state('wg2', wg2)
-        st.experimental_rerun()
+        
     
 
     
@@ -518,7 +518,7 @@ def main():
         update_state('pin', pin)
         update_state('wg1', wg1)
         update_state('wg2', wg2)
-        st.experimental_rerun()
+        
     
 
     if st.button("Upload to Database"):
@@ -533,7 +533,7 @@ def main():
             update_state('pin', pin)
             update_state('wg1', wg1)
             update_state('wg2', wg2)
-            st.experimental_rerun()
+            
     
 
 if __name__ == "__main__":
