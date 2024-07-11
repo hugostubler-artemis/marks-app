@@ -222,11 +222,11 @@ def main():
         st.sidebar.header('Input Coordinates')
 
         # Input coordinates for the marks
-        #rc_coord = st.sidebar.text_input('RC coordinates', f'({st.session_state['rc'][0]},{st.session_state['rc'][1]})')
+        
         rc_coord = st.sidebar.text_input('RC coordinates', f'({st.session_state["rc"][0]},{st.session_state["rc"][1]})')
-        pin_coord = st.sidebar.text_input('Pin coordinates', f'({st.session_state['pin'][0]},{st.session_state['pin'][1]})')
-        wg1_coord = st.sidebar.text_input('WG1 coordinates', f'({st.session_state['wg1'][0]},{st.session_state['wg1'][1]})')
-        wg2_coord = st.sidebar.text_input('WG2 coordinates', f'({st.session_state['wg2'][0]},{st.session_state['wg2'][1]})')
+        pin_coord = st.sidebar.text_input('Pin coordinates', f'({st.session_state["pin"][0]},{st.session_state["pin"][1]})')
+        wg1_coord = st.sidebar.text_input('WG1 coordinates', f'({st.session_state["wg1"][0]},{st.session_state["wg1"][1]})')
+        wg2_coord = st.sidebar.text_input('WG2 coordinates', f'({st.session_state["wg2"][0]},{st.session_state["wg2"][1]})')
     
         # Parse coordinates from strings to floats
         rc = [float(coord) for coord in rc_coord[1:-1].split(',')]
