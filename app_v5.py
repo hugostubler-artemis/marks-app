@@ -23,6 +23,9 @@ def long_computation():
     import time
     time.sleep(3)
 
+def update_state(coord, value):
+    st.session_state[coord] = val
+
 def local_to_utc(local_time_str, local_timezone_offset):
     today = datetime.now().date()
     local_time = datetime.strptime(f"{today} {local_time_str}", "%Y-%m-%d %H:%M")
