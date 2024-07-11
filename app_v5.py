@@ -408,10 +408,10 @@ def main():
                 """)
         ).add_to(m)
 
-    add_marker(m, rc, 'RC')
-    add_marker(m, pin, 'Pin')
-    add_marker(m, wg1, 'WG1')
-    add_marker(m, wg2, 'WG2')
+    add_marker(m, st.session_state['rc'], 'RC')
+    add_marker(m, st.session_state['pin'], 'Pin')
+    add_marker(m, st.session_state['wg1'], 'WG1')
+    add_marker(m, st.session_state['wg2'], 'WG2')
 
     folium.PolyLine(locations=boundary_coords, color='red',
                     dash_array='5, 10').add_to(m)
