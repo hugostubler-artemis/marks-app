@@ -194,8 +194,17 @@ def main():
     #    location = get_geolocation()
     #    st.write(location)
 
-    
-    
+
+    # Initialize session state for coordinates if they are not already present
+    if 'rc' not in st.session_state:
+        st.session_state['rc'] = [41.426929, 2.254188]
+    if 'pin' not in st.session_state:
+        st.session_state['pin'] = [41.428403, 2.2526792]
+    if 'wg1' not in st.session_state:
+        st.session_state['wg1'] = [41.436155, 2.2860348]
+    if 'wg2' not in st.session_state:
+        st.session_state['wg2'] = [41.43448679, 2.286550]
+        
 
 
     # Dropdown menu for selecting input method
@@ -287,6 +296,16 @@ def main():
         st.write(f"Mark 2 Coordinates: {wg2}")
     
     marks = [rc, pin, wg1, wg2]
+    # Update session state based on input changes
+    if rc != str(st.session_state['rc']):
+        update_state('rc', rc)
+    if pin != str(st.session_state['pin']):
+        update_state('pin', pin)
+    if wg1 != str(st.session_state['wg1']):
+        update_state('wg1', wg1)
+    if wg2 != str(st.session_state['wg2']):
+        update_state('wg2', wg2)
+
     # Calculate race course axis
     course_heading = calculate_heading(rc, wg1)
     course_distance = haversine(rc, wg1)/1852
@@ -451,7 +470,12 @@ def main():
         file_name=f'race_course_data_{datetime.now()}.json',
         mime='application/json'
     ):
-        st.stop()
+        
+        update_state('rc', rc)
+        update_state('pin', pin)
+        update_state('wg1', wg1)
+        update_state('wg2', wg2)
+        st.experimental_rerun()
     
 
     if st.button("Upload to Database"):
@@ -461,7 +485,12 @@ def main():
                 "boundary": boundary_coords[:-1]
             }
             insert_into_database(coordinates)
-            st.stop()
+            
+            update_state('rc', rc)
+            update_state('pin', pin)
+            update_state('wg1', wg1)
+            update_state('wg2', wg2)
+            st.experimental_rerun()
     
 
 if __name__ == "__main__":
