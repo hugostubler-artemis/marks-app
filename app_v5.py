@@ -24,7 +24,7 @@ def long_computation():
     time.sleep(3)
 
 def update_state(coord, value):
-    st.session_state[coord] = val
+    st.session_state[coord] = value
 
 def local_to_utc(local_time_str, local_timezone_offset):
     today = datetime.now().date()
