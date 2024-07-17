@@ -481,9 +481,9 @@ def main():
                 "Rounding": "",
                 "Gate": [
                     {"Name": "StartBoat", "TargetLocation": rc,
-                        "BoatID": "StartBoat", "ForceTarget": False},
+                        "BoatID": "StartBoat", "ForceTarget": True},
                     {"Name": "Pin", "TargetLocation": pin,
-                        "BoatID": "Pin", "ForceTarget": False}
+                        "BoatID": "Pin", "ForceTarget": True}
                 ]
             },
             {
@@ -491,9 +491,9 @@ def main():
                 "Rounding": "",
                 "Gate": [
                     {"Name": "TopMarkPort", "TargetLocation": wg1,
-                        "BoatID": "TopMarkPort", "ForceTarget": False},
+                        "BoatID": "TopMarkPort", "ForceTarget": True},
                     {"Name": "TopMarkStbd", "TargetLocation": wg2,
-                        "BoatID": "TopMarkStbd", "ForceTarget": False}
+                        "BoatID": "TopMarkStbd", "ForceTarget": True}
                 ]
             }
         ],
