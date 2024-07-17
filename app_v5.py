@@ -480,9 +480,9 @@ def main():
                 "Name": "0",
                 "Rounding": "",
                 "Gate": [
-                    {"Name": "StartBoat", "TargetLocation": rc,
+                    {"Name": "StartBoat", "TargetLocation": st.session_state['rc'],
                         "BoatID": "StartBoat", "ForceTarget": True},
-                    {"Name": "Pin", "TargetLocation": pin,
+                    {"Name": "Pin", "TargetLocation": st.session_state['pin'],
                         "BoatID": "Pin", "ForceTarget": True}
                 ]
             },
@@ -490,9 +490,9 @@ def main():
                 "Name": "1",
                 "Rounding": "",
                 "Gate": [
-                    {"Name": "TopMarkPort", "TargetLocation": wg1,
+                    {"Name": "TopMarkPort", "TargetLocation": st.session_state['wg1'],
                         "BoatID": "TopMarkPort", "ForceTarget": True},
-                    {"Name": "TopMarkStbd", "TargetLocation": wg2,
+                    {"Name": "TopMarkStbd", "TargetLocation": st.session_state['wg2'],
                         "BoatID": "TopMarkStbd", "ForceTarget": True}
                 ]
             }
