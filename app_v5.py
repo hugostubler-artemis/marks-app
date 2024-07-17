@@ -279,10 +279,10 @@ def main():
             st.success("Loaded latest marks done ✅")
             #st.write(latest_marks)
             # Set the coordinates from the session state
-            rc = st.session_state['rc']
-            pin = st.session_state['pin']
-            wg1 = st.session_state['wg1']
-            wg2 = st.session_state['wg2']
+            st.session_state["rc"] = rc
+            st.session_state["pin"] = pin
+            st.session_state["wg1"] = wg1
+            st.session_state["wg2"] = wg2
 
     if None in rc or None in pin or None in wg1 or None in wg2:
         st.warning('Please provide coordinates for all marks.')
