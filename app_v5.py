@@ -212,7 +212,7 @@ def main():
 
     # Dropdown menu for selecting input method
     input_method = st.sidebar.selectbox(
-        'Select Input Method', ('Manual coordinates', 'GPX coordinates','Load latest from database'))
+        'Select Input Method', ('Load latest from database', 'Manual coordinates', 'GPX coordinates'))
 
     rc, pin, wg1, wg2 = [None, None], [None, None], [None, None], [None, None]
     waypoints = []
@@ -274,7 +274,7 @@ def main():
 
     elif input_method == 'Load latest from database':
         latest_marks = fetch_latest_marks()
-        rc, pin, wg1, wg2 = latest_marks["RC"],  latest_marks["PIN"], latest_marks["WGR"], latest_marks["WGL"]
+        rc, pin, wg1, wg2 = latest_marks["RC"],  latest_marks["PIN"], latest_marks["WGL"], latest_marks["WGR"]
         if latest_marks:
             st.success("Loaded latest marks done ✅")
             #st.write(latest_marks)
