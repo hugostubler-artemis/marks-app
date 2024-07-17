@@ -357,7 +357,7 @@ def main():
     course_distance = haversine(st.session_state['rc'], st.session_state['wg1'])/1852
     perpendicular_heading = (course_heading + 90) % 360
     perpendicular_heading_lee_gate = ((calculate_heading(st.session_state['pin'], st.session_state['rc']) + 90) % 360 - 180 + 360)%360
-    perpendicular_heading_win_gate = ((calculate_heading(st.session_state['wg1'], st.session_state['wg2']) + 90) % 360 - 180 + 360)%360
+    perpendicular_heading_win_gate = ((calculate_heading(st.session_state['wg2'], st.session_state['wg1']) + 90) % 360 - 180 + 360)%360
     distance_start = haversine(st.session_state['pin'], st.session_state['rc'])
     distance_uwgate = haversine(st.session_state['wg1'], st.session_state['wg2'])
     start_bias = distance_start * \
