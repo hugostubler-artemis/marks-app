@@ -499,10 +499,10 @@ def main():
                     "Name": str(2*(i+1)),
                     "Rounding": "",
                     "Gate": [
-                        {"Name": "TopMarkPort", "TargetLocation": st.session_state['wg1'],
-                         "BoatID": "TopMarkPort", "ForceTarget": False},
-                        {"Name": "TopMarkStbd", "TargetLocation": st.session_state['wg2'],
-                         "BoatID": "TopMarkStbd", "ForceTarget": False}
+                        {"Name": "StartBoat", "TargetLocation": st.session_state['rc'],
+                         "BoatID": "StartBoat", "ForceTarget": False},
+                        {"Name": "Pin", "TargetLocation": st.session_state['pin'],
+                         "BoatID": "Pin", "ForceTarget": False}
                     ]
                 },
                 
