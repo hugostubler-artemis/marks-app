@@ -491,22 +491,18 @@ def main():
                         {"Name": "TopMarkStbd", "TargetLocation": st.session_state['wg2'],
                          "BoatID": "TopMarkStbd", "ForceTarget": False}
                     ]
+                },
+                {
+                    "Name": str(i),
+                    "Rounding": "",
+                    "Gate": [
+                        {"Name": "StartBoat", "TargetLocation": st.session_state['rc'],
+                         "BoatID": "StartBoat", "ForceTarget": False},
+                        {"Name": "Pin", "TargetLocation": st.session_state['pin'],
+                         "BoatID": "Pin", "ForceTarget": False}
+                    ]
                 }
             )
-        
-        # Add the finish gate
-        course_sequence.append(
-            {
-                "Name": str(leg_num + 1),
-                "Rounding": "",
-                "Gate": [
-                    {"Name": "StartBoat", "TargetLocation": st.session_state['rc'],
-                     "BoatID": "StartBoat", "ForceTarget": False},
-                    {"Name": "Pin", "TargetLocation": st.session_state['pin'],
-                     "BoatID": "Pin", "ForceTarget": False}
-                ]
-            }
-        )
     
         json_data = {
             "Boundary": boundary_coords,
