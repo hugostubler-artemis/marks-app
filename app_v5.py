@@ -456,63 +456,88 @@ def main():
     
     # Download JSON button
    
-    local_time_str = st.text_input('Local Race Start Time (UTC+2)', '15:45')
+    local_time_str = st.text_input('Local Race Start Time (UTC+2)', '14:00')
+    leg_num = st.selectbox(
+    "Select the number of legs you want",
+    (1, 2, 3, 4, 5, 6))
 
     # Convert the local time to UTC time
     utc_offset = 2
     utc_time = local_to_utc(local_time_str, utc_offset)
 
-    # Create JSON structure
-    json_data = {
-        "Boundary": boundary_coords,
-        "RaceArea": [],
-        "OtherAreas": [],
-        "CreationTimeDate": time.time(),
-        "CreationTime": time.time(),
-        "RaceStartTime": utc_time,
-        "EntryBeforeStartBlue": 130.0,
-        "EntryBeforeStartYellow": 120.0,
-        "RaceType": "Fleet",
-        "Participants": ["RaceBoat", "Ghost"],
-        "OtherAssets": [],
-        "CourseSequence": [
+   
+    def generate_json(leg_num):
+        course_sequence = [
             {
                 "Name": "0",
                 "Rounding": "",
                 "Gate": [
                     {"Name": "StartBoat", "TargetLocation": st.session_state['rc'],
-                        "BoatID": "StartBoat", "ForceTarget": True},
+                     "BoatID": "StartBoat", "ForceTarget": False},
                     {"Name": "Pin", "TargetLocation": st.session_state['pin'],
-                        "BoatID": "Pin", "ForceTarget": True}
-                ]
-            },
-            {
-                "Name": "1",
-                "Rounding": "",
-                "Gate": [
-                    {"Name": "TopMarkPort", "TargetLocation": st.session_state['wg1'],
-                        "BoatID": "TopMarkPort", "ForceTarget": True},
-                    {"Name": "TopMarkStbd", "TargetLocation": st.session_state['wg2'],
-                        "BoatID": "TopMarkStbd", "ForceTarget": True}
+                     "BoatID": "Pin", "ForceTarget": False}
                 ]
             }
-        ],
-        "CourseDimensions": {
-            "CourseWidth": boundary_width,
-            "StartBoxDepth": boundary_length,
-            "CourseLength": boundary_length,
-            "CourseAxis": course_heading,
-            "MarkZoneSize": 60.0,
-            "BoundaryZoneSize": 115.0
+        ]
+        
+        for i in range(1, leg_num + 1):
+            course_sequence.append(
+                {
+                    "Name": str(i),
+                    "Rounding": "",
+                    "Gate": [
+                        {"Name": "TopMarkPort", "TargetLocation": st.session_state['wg1'],
+                         "BoatID": "TopMarkPort", "ForceTarget": False},
+                        {"Name": "TopMarkStbd", "TargetLocation": st.session_state['wg2'],
+                         "BoatID": "TopMarkStbd", "ForceTarget": False}
+                    ]
+                }
+            )
+        
+        # Add the finish gate
+        course_sequence.append(
+            {
+                "Name": str(leg_num + 1),
+                "Rounding": "",
+                "Gate": [
+                    {"Name": "StartBoat", "TargetLocation": st.session_state['rc'],
+                     "BoatID": "StartBoat", "ForceTarget": False},
+                    {"Name": "Pin", "TargetLocation": st.session_state['pin'],
+                     "BoatID": "Pin", "ForceTarget": False}
+                ]
+            }
+        )
+    
+        json_data = {
+            "Boundary": boundary_coords,
+            "RaceArea": [],
+            "OtherAreas": [],
+            "CreationTimeDate": time.time(),
+            "CreationTime": time.time(),
+            "RaceStartTime": utc_time,
+            "EntryBeforeStartBlue": 130.0,
+            "EntryBeforeStartYellow": 120.0,
+            "RaceType": "Fleet",
+            "Participants": ["RaceBoat", "Ghost"],
+            "OtherAssets": [],
+            "CourseSequence": course_sequence,
+            "CourseDimensions": {
+                "CourseWidth": boundary_width,
+                "StartBoxDepth": boundary_length,
+                "CourseLength": boundary_length,
+                "CourseAxis": course_heading,
+                "MarkZoneSize": 60.0,
+                "BoundaryZoneSize": 115.0
+            }
         }
-    }
-
+    
+        return json_data
 
     # Display the UTC time
     st.write(f"UTC time: {utc_time}")
     if st.download_button(
         label="Download JSON",
-        data=json.dumps(json_data, indent=4),
+        data=json.dumps(generate_json(leg_num), indent=4),
         file_name=f'race_course_data_{datetime.now()}.json',
         mime='application/json'
     ):
