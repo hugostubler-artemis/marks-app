@@ -482,7 +482,7 @@ def main():
         
         for i in range(0, (leg_num + 1)//2):
             course_sequence.append(
-                ,{
+                {
                     "Name": str(2*i+1),
                     "Rounding": "",
                     "Gate": [
