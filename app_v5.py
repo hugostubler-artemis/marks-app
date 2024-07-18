@@ -480,10 +480,23 @@ def main():
             }
         ]
         
-        for i in range(1, leg_num + 1):
+        for i in range(0, (leg_num + 1)//2):
             course_sequence.append(
                 {
-                    "Name": str(i),
+                    "Name": str(2*i+1),
+                    "Rounding": "",
+                    "Gate": [
+                        {"Name": "TopMarkPort", "TargetLocation": st.session_state['wg1'],
+                         "BoatID": "TopMarkPort", "ForceTarget": False},
+                        {"Name": "TopMarkStbd", "TargetLocation": st.session_state['wg2'],
+                         "BoatID": "TopMarkStbd", "ForceTarget": False}
+                    ]
+                },
+                
+            )
+            course_sequence.append(
+                {
+                    "Name": str(2*(i+1)),
                     "Rounding": "",
                     "Gate": [
                         {"Name": "TopMarkPort", "TargetLocation": st.session_state['wg1'],
