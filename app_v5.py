@@ -492,16 +492,7 @@ def main():
                          "BoatID": "TopMarkStbd", "ForceTarget": False}
                     ]
                 },
-                {
-                    "Name": str(i),
-                    "Rounding": "",
-                    "Gate": [
-                        {"Name": "StartBoat", "TargetLocation": st.session_state['rc'],
-                         "BoatID": "StartBoat", "ForceTarget": False},
-                        {"Name": "Pin", "TargetLocation": st.session_state['pin'],
-                         "BoatID": "Pin", "ForceTarget": False}
-                    ]
-                }
+                
             )
     
         json_data = {
