@@ -528,12 +528,12 @@ def main():
         }
     
         return json_data
-
+    json_data = generate_json(leg_num)
     # Display the UTC time
     st.write(f"UTC time: {utc_time}")
     if st.download_button(
         label="Download JSON",
-        data=json.dumps(generate_json(leg_num), indent=4),
+        data=json.dumps(json_data, indent=4),
         file_name=f'race_course_data_{datetime.now()}.json',
         mime='application/json'
     ):
