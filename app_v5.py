@@ -353,16 +353,19 @@ def main():
     marks = [rc, pin, wg1, wg2]
 
     # Calculate race course axis
-    course_heading = calculate_heading(st.session_state['rc'], st.session_state['wg1'])
+    center_bottom = [(st.session_state['rc'][0] + st.session_state['pin'][0]) / 2, (st.session_state['rc'][1] + st.session_state['pin'][1]) / 2]
+    center_top = [(st.session_state['wg1'][0] + st.session_state['wg2'][0]) / 2, (st.session_state['wg1'][1] + st.session_state['wg2'][1]) / 2]
+
+    course_heading = calculate_heading(center_bottom, center_top)
     course_distance = haversine(st.session_state['rc'], st.session_state['wg1'])/1852
     perpendicular_heading = (course_heading + 90) % 360
     perpendicular_heading_lee_gate = ((calculate_heading(st.session_state['pin'], st.session_state['rc']) + 90) % 360 - 180 + 360)%360
     perpendicular_heading_win_gate = ((calculate_heading(st.session_state['wg1'], st.session_state['wg2']) + 90) % 360 - 180 + 360)%360
     distance_start = haversine(st.session_state['pin'], st.session_state['rc'])
     distance_uwgate = haversine(st.session_state['wg1'], st.session_state['wg2'])
-    start_bias = distance_start * \
+    start_bias = 2*distance_start * \
         np.tan((perpendicular_heading_lee_gate-twd)*np.pi/180)
-    winward_bias = distance_start * \
+    winward_bias = 2*distance_start * \
         np.tan((perpendicular_heading_win_gate-twd)*np.pi/180)
 
     def calculate_boundaries(marks, boundary_width, boundary_length):
