@@ -363,6 +363,8 @@ def main():
     perpendicular_heading_win_gate = ((calculate_heading(st.session_state['wg1'], st.session_state['wg2']) + 90) % 360 - 180 + 360)%360
     distance_start = haversine(st.session_state['pin'], st.session_state['rc'])
     distance_uwgate = haversine(st.session_state['wg1'], st.session_state['wg2'])
+    boundary_width = st.sidebar.slider('Boundary Width (NM)', 0.0, 2.0, course_distance*.65/1.35)
+    boundary_length = st.sidebar.slider('Boundary Length (NM)', 0.0, 1.0, .4)
     start_bias = 2*distance_start * \
         np.tan((perpendicular_heading_lee_gate-twd)*np.pi/180)
     winward_bias = 2*distance_start * \
